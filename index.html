@@ -1,292 +1,1406 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>SOUL NEST｜Where Your Soul Finds Answers</title>
-<style>
-:root{
-  --bg:#020713;
-  --navy:#081126;
-  --card:#0c1730;
-  --gold:#d4af37;
-  --gold-light:#ffe6a0;
-  --white:#f8f6f2;
-  --muted:rgba(248,246,242,.72);
-}
-*{box-sizing:border-box}
-html,body{margin:0;min-height:100%;background:var(--bg);color:var(--white);font-family:"Times New Roman","Noto Serif TC",serif}
-body{overflow-x:hidden}
-body::before{
-  content:"";
-  position:fixed;inset:0;z-index:-4;
-  background:
-    radial-gradient(circle at 50% 84%,rgba(212,175,55,.24),transparent 18%),
-    radial-gradient(circle at 78% 18%,rgba(212,175,55,.22),transparent 18%),
-    radial-gradient(circle at 18% 78%,rgba(43,64,130,.34),transparent 34%),
-    linear-gradient(180deg,#01040c,#071126 55%,#01040c);
-}
-body::after{
-  content:"";
-  position:fixed;inset:0;z-index:-3;pointer-events:none;
-  background-image:
-    radial-gradient(#fff 1px,transparent 1.4px),
-    radial-gradient(var(--gold) 1px,transparent 1.4px);
-  background-size:90px 90px,145px 145px;
-  opacity:.42;
-}
-.page{display:none;min-height:100vh;max-width:1180px;margin:auto;padding:18px 18px 76px}
-.page.active{display:block}
-.top{
-  height:46px;display:flex;align-items:center;justify-content:space-between;
-  color:var(--gold-light);letter-spacing:4px;font-size:13px
-}
-.top-title{position:absolute;left:50%;transform:translateX(-50%);white-space:nowrap}
-button{
-  cursor:pointer;font-family:inherit;border-radius:999px;border:1px solid rgba(212,175,55,.48);
-  background:rgba(2,7,19,.72);color:var(--white);padding:10px 18px;transition:.22s
-}
-button:hover{transform:translateY(-2px);box-shadow:0 0 24px rgba(212,175,55,.36)}
-.btn-gold{
-  background:linear-gradient(180deg,#fff2ba,#d4af37 58%,#8e6a19);
-  color:#071126;border-color:#ffedaa;font-weight:bold;box-shadow:0 0 34px rgba(212,175,55,.38)
-}
-.btn-small{font-size:13px;padding:8px 14px}
-.center,.hero{min-height:calc(100vh - 84px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
-h1{font-size:72px;letter-spacing:14px;color:#fff1b9;margin:0;text-shadow:0 0 28px rgba(212,175,55,.48)}
-h2{font-size:34px;letter-spacing:4px;color:#fff1b9;margin:12px 0 6px}
-h3{color:#fff1b9}
-.sub{font-size:18px;letter-spacing:2px;color:#fff1b9;margin-top:10px}
-.copy{font-size:22px;line-height:1.9;margin:32px 0 10px}
-.muted{color:var(--muted);line-height:1.8}
-.divider{width:260px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:22px auto;position:relative}
-.divider::after{content:"✦";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--bg);color:var(--gold-light);padding:0 14px}
-.hero-moon{
-  width:174px;height:174px;display:flex;align-items:center;justify-content:center;
-  color:var(--gold-light);font-size:104px;position:relative;margin-bottom:24px;text-shadow:0 0 38px rgba(212,175,55,.9)
-}
-.hero-moon::before,.hero-moon::after{content:"";position:absolute;border:1px solid rgba(212,175,55,.38);border-radius:50%}
-.hero-moon::before{inset:-9px}.hero-moon::after{inset:-34px;border-style:dashed}
-.orbit{position:absolute;width:275px;height:90px;border-top:1px solid rgba(212,175,55,.45);border-radius:50%;transform:rotate(-13deg)}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Soul Nest 塔羅占卜</title>
 
-.gold-card{
-  position:relative;border:1px solid rgba(212,175,55,.62);border-radius:18px;
-  background:radial-gradient(circle at 50% 18%,rgba(212,175,55,.1),transparent 27%),linear-gradient(180deg,rgba(12,23,49,.98),rgba(2,7,19,.96));
-  box-shadow:0 18px 55px rgba(0,0,0,.48),inset 0 0 0 5px rgba(212,175,55,.04);
-  overflow:hidden
-}
-.gold-card::before{content:"";position:absolute;inset:8px;border:1px solid rgba(212,175,55,.24);border-radius:12px;pointer-events:none}
-.gold-card::after{content:"✦";position:absolute;bottom:10px;left:50%;transform:translateX(-50%);color:var(--gold-light);font-size:13px}
+  <style>
+    :root {
+      --bg: #0b1020;
+      --bg2: #111833;
+      --gold: #d4af37;
+      --gold2: #f8f6e2;
+      --text: #f8f6e2;
+      --muted: #c8b98a;
+      --card: rgba(10, 16, 32, 0.88);
+      --line: rgba(212, 175, 55, 0.58);
+      --soft: rgba(212, 175, 55, 0.12);
+      --white: #fff8ec;
+    }
 
-.spread-grid{display:grid;grid-template-columns:repeat(4,minmax(172px,220px));gap:20px;justify-content:center;width:100%;margin-top:36px}
-.spread-card{height:320px;padding:26px 16px 42px;display:flex;flex-direction:column;align-items:center;justify-content:space-between}
-.icon{width:112px;height:112px;border:1px solid rgba(212,175,55,.45);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold-light);font-size:54px;background:radial-gradient(circle,rgba(212,175,55,.18),transparent 70%);position:relative}
-.icon::before{content:"";position:absolute;inset:14px;border:1px solid rgba(212,175,55,.18);border-radius:50%}
-.spread-card h3{font-size:23px;margin:12px 0 4px}
-.spread-card p{margin:0;color:var(--muted);line-height:1.7}
-.pill{display:inline-block;border-radius:999px;background:linear-gradient(180deg,#fff2ba,#d4af37);color:#071126;padding:8px 20px}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-.mode-grid{display:grid;grid-template-columns:repeat(2,minmax(240px,330px));gap:28px;margin-top:36px}
-.mode-card{height:360px;padding:28px 20px 42px;display:flex;flex-direction:column;align-items:center;justify-content:space-between}
-.card-back-large,.draw-card{
-  border:1px solid rgba(212,175,55,.74);border-radius:18px;position:relative;
-  background:radial-gradient(circle at 50% 32%,rgba(212,175,55,.2),transparent 24%),radial-gradient(circle at 50% 78%,rgba(42,74,140,.45),transparent 30%),linear-gradient(180deg,#101d40,#020713);
-  color:var(--gold-light);box-shadow:0 0 34px rgba(212,175,55,.25),inset 0 0 0 6px rgba(212,175,55,.04);overflow:hidden
-}
-.card-back-large::before,.draw-card::before{content:"";position:absolute;inset:8px;border:1px solid rgba(212,175,55,.3);border-radius:12px}
-.card-back-large::after,.draw-card::after{content:"";position:absolute;inset:26px;border:1px dashed rgba(212,175,55,.22);border-radius:50%}
-.card-back-large{width:150px;height:235px;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.card-back-large .moon{font-size:50px;z-index:1}
-.card-back-large .brand{font-size:22px;letter-spacing:2px;margin-top:12px;z-index:1}
-.card-back-large .en{font-size:10px;line-height:1.4;color:#fff6d0;z-index:1}
+    body {
+      min-height: 100vh;
+      font-family: "Times New Roman", "Noto Serif TC", serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 20% 20%, rgba(212, 175, 55, 0.12), transparent 28%),
+        radial-gradient(circle at 80% 10%, rgba(248, 246, 226, 0.08), transparent 22%),
+        radial-gradient(circle at 50% 80%, rgba(212, 175, 55, 0.12), transparent 30%),
+        linear-gradient(160deg, #050812 0%, #0b1020 45%, #111833 100%);
+      overflow-x: hidden;
+    }
 
-.shuffle-stage{width:min(430px,92vw);height:330px;position:relative;margin:12px auto 20px}
-.shuffle-stage::before{content:"";position:absolute;left:50%;top:50%;width:290px;height:290px;transform:translate(-50%,-50%);border:1px solid rgba(212,175,55,.26);border-radius:50%;box-shadow:0 0 62px rgba(212,175,55,.2)}
-.float-card{position:absolute;left:50%;top:50%;width:92px;height:146px;margin-left:-46px;margin-top:-73px;border:1px solid rgba(212,175,55,.7);border-radius:16px;background:linear-gradient(180deg,#101d40,#020713);animation:orbit 3.5s linear infinite}
-.float-card::before{content:"☾";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--gold-light);font-size:38px}
-.float-card:nth-child(2){animation-delay:.3s}.float-card:nth-child(3){animation-delay:.6s}.float-card:nth-child(4){animation-delay:.9s}.float-card:nth-child(5){animation-delay:1.2s}.float-card:nth-child(6){animation-delay:1.5s}
-@keyframes orbit{from{transform:rotate(0deg) translateX(124px) rotate(0deg)}to{transform:rotate(360deg) translateX(124px) rotate(-360deg)}}
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,.9) 1px, transparent 1px),
+        radial-gradient(circle, rgba(212,175,55,.8) 1px, transparent 1px);
+      background-size: 80px 80px, 130px 130px;
+      background-position: 0 0, 40px 30px;
+      opacity: .25;
+      pointer-events: none;
+      z-index: -2;
+    }
 
-.deck-scroll{width:min(1040px,96vw);overflow-x:auto;padding:38px 8px 20px;margin-top:18px}
-.deck{min-width:1160px;display:flex;gap:4px;justify-content:center;align-items:flex-end}
-.draw-card{flex:0 0 auto;width:58px;height:98px;display:flex;align-items:center;justify-content:center;transition:.22s;transform-origin:bottom center}
-.draw-card span{z-index:1;color:var(--gold-light);font-size:24px}
-.draw-card:nth-child(4n+1){transform:translateY(18px) rotate(-10deg)}
-.draw-card:nth-child(4n+2){transform:translateY(6px) rotate(-4deg)}
-.draw-card:nth-child(4n+3){transform:translateY(6px) rotate(4deg)}
-.draw-card:nth-child(4n){transform:translateY(18px) rotate(10deg)}
-.draw-card:hover{transform:translateY(-18px) scale(1.08);box-shadow:0 0 30px rgba(212,175,55,.55)}
-.draw-card.selected{background:rgba(212,175,55,.2);transform:translateY(-18px) scale(1.08)}
-.draw-card.disabled{opacity:.28;pointer-events:none}
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 10% 90%, rgba(212,175,55,.08), transparent 30%),
+        radial-gradient(circle at 90% 15%, rgba(212,175,55,.08), transparent 25%);
+      pointer-events: none;
+      z-index: -1;
+    }
 
-.result-layout{display:grid;gap:24px;justify-content:center;width:100%;margin-top:34px}
-.layout-triangle,.layout-time,.layout-decision{grid-template-columns:repeat(3,160px)}
-.layout-universal{grid-template-columns:repeat(2,175px)}
-.layout-universal .core{grid-column:1/3;justify-self:center;transform:scale(1.16);box-shadow:0 0 58px rgba(212,175,55,.42)}
-.result-card{width:160px;min-height:305px;padding:12px 10px 16px;display:flex;flex-direction:column;align-items:center}
-.result-card.wheel{border-color:#ffe7a0;box-shadow:0 0 62px rgba(212,175,55,.58)}
-.position{color:#fff0b7;font-size:15px;margin:4px 0 8px;z-index:1}
-.card-img{width:92px;height:158px;object-fit:cover;border:1px solid rgba(212,175,55,.48);border-radius:6px;z-index:1}
-.card-img.reversed{transform:rotate(180deg)}
-.card-name{font-size:20px;color:#fff;margin:10px 0 3px;z-index:1}
-.orientation{color:#fff0b7;z-index:1}
-.note{max-width:680px;margin:28px auto 0;padding:18px 22px;border:1px solid rgba(212,175,55,.4);border-radius:18px;background:rgba(212,175,55,.08);color:#fff0b7;line-height:1.8}
+    .app {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      padding: 18px 14px 92px;
+    }
 
-.oracle-grid{display:grid;grid-template-columns:repeat(4,minmax(130px,180px));gap:18px;justify-content:center;width:100%;margin:28px auto}
-.oracle-select{height:230px;padding:18px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.oracle-art{width:94px;height:122px;border:1px solid rgba(212,175,55,.42);border-radius:10px;background:radial-gradient(circle at 50% 30%,rgba(255,226,143,.9),transparent 13%),linear-gradient(180deg,#171e4a,#4a264e 55%,#0b1020);display:flex;align-items:center;justify-content:center;color:#fff0b7;font-size:42px;z-index:1}
-.oracle-select h3{font-size:18px;margin:12px 0 4px;z-index:1}
-.oracle-select p{font-size:13px;color:var(--muted);z-index:1}
-.oracle-result{display:grid;grid-template-columns:minmax(220px,300px) minmax(260px,390px);gap:28px;align-items:center;justify-content:center;max-width:780px;margin:34px auto 0}
-.oracle-image{height:390px;border:1px solid rgba(212,175,55,.62);border-radius:18px;background:radial-gradient(circle at 50% 24%,rgba(255,226,143,.9),transparent 13%),linear-gradient(180deg,#171e4a 0%,#30245c 55%,#0b1020 100%);display:flex;align-items:center;justify-content:center;flex-direction:column;position:relative}
-.oracle-image::before{content:"";position:absolute;inset:10px;border:1px solid rgba(212,175,55,.3);border-radius:12px}
-.oracle-image .big{font-size:88px;color:#fff0b7;text-shadow:0 0 30px rgba(212,175,55,.8);z-index:1}
-.oracle-image .star{font-size:50px;margin-top:26px;z-index:1}
-.oracle-text{min-height:310px;border:1px solid rgba(212,175,55,.38);border-radius:18px;padding:30px;background:rgba(4,8,20,.58);text-align:left;line-height:2;position:relative}
-.oracle-text::before{content:"";position:absolute;inset:12px;border-top:1px solid rgba(212,175,55,.25);border-bottom:1px solid rgba(212,175,55,.25)}
-.oracle-text .en{font-style:italic;color:#fff0b7;font-size:20px;position:relative}
-.oracle-text h3{font-size:30px;margin:6px 0 18px;position:relative}
-.oracle-text p{position:relative;white-space:pre-line}
-.actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:30px}
-.badge{display:inline-block;margin:4px;padding:7px 12px;border:1px solid rgba(212,175,55,.32);border-radius:999px;background:rgba(212,175,55,.08);color:#fff0b7;font-size:13px}
-.history-list{display:grid;gap:14px;width:100%;margin-top:30px}.history-card{padding:24px;text-align:left}.teacher-box{max-width:780px;margin:28px auto 0;padding:24px}
-.bottom-nav{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:min(1180px,100%);height:56px;background:rgba(3,7,18,.94);border-top:1px solid rgba(212,175,55,.38);display:flex;justify-content:space-around;align-items:center;z-index:50;backdrop-filter:blur(10px)}
-.bottom-nav button{border:none;background:transparent;color:var(--gold-light);padding:5px 8px;font-size:12px;box-shadow:none}.bottom-nav span{display:block;font-size:18px;margin-bottom:2px}
-@media(max-width:760px){
-  .page{padding:14px 12px 80px}.top{font-size:11px;letter-spacing:2px}h1{font-size:42px;letter-spacing:6px}h2{font-size:28px}.copy{font-size:19px}
-  .hero-moon{width:130px;height:130px;font-size:76px}.spread-grid{grid-template-columns:repeat(2,minmax(140px,1fr))}.spread-card{height:250px}.mode-grid{grid-template-columns:1fr;max-width:360px}
-  .oracle-grid{grid-template-columns:repeat(2,minmax(130px,1fr))}.oracle-result{grid-template-columns:1fr}.oracle-image{height:320px}
-  .layout-triangle,.layout-time,.layout-decision{grid-template-columns:repeat(2,150px)}.layout-universal{grid-template-columns:1fr}.layout-universal .core{grid-column:auto}.result-card{width:150px}.card-img{width:86px;height:148px}
-}
-</style>
+    .page {
+      display: none;
+      animation: fade .45s ease;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    @keyframes fade {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .gold-frame {
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(11,16,32,.88), rgba(5,8,18,.92));
+      box-shadow: 0 0 0 1px rgba(212,175,55,.12) inset, 0 22px 70px rgba(0,0,0,.36);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gold-frame::before,
+    .gold-frame::after {
+      content: "✦";
+      position: absolute;
+      color: var(--gold);
+      font-size: 18px;
+      opacity: .9;
+    }
+
+    .gold-frame::before {
+      top: 12px;
+      left: 14px;
+    }
+
+    .gold-frame::after {
+      bottom: 12px;
+      right: 14px;
+    }
+
+    .hero {
+      min-height: 580px;
+      border-radius: 0;
+      padding: 70px 26px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+    }
+
+    .moon {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 40%, #fff8df 0 8%, #f5d889 9% 32%, #d4af37 45%, transparent 47%);
+      position: relative;
+      margin: 0 auto 28px;
+      filter: drop-shadow(0 0 22px rgba(212,175,55,.35));
+    }
+
+    .moon::after {
+      content: "";
+      position: absolute;
+      width: 105px;
+      height: 105px;
+      border-radius: 50%;
+      background: #0b1020;
+      top: 8px;
+      left: 42px;
+      box-shadow: inset 0 0 18px rgba(255,255,255,.04);
+    }
+
+    .hero h1 {
+      font-size: clamp(48px, 8vw, 104px);
+      letter-spacing: .12em;
+      color: var(--gold);
+      font-weight: 500;
+      text-shadow: 0 0 28px rgba(212,175,55,.28);
+      margin-bottom: 14px;
+    }
+
+    .hero .en {
+      font-size: clamp(17px, 2.3vw, 25px);
+      letter-spacing: .04em;
+      margin-bottom: 28px;
+      color: var(--white);
+    }
+
+    .hero .sub {
+      color: var(--gold2);
+      line-height: 2;
+      font-size: 18px;
+      margin-bottom: 38px;
+    }
+
+    .btn {
+      border: 1px solid var(--line);
+      background: linear-gradient(135deg, #f7d891, #d4af37, #8a5d16);
+      color: #111;
+      padding: 15px 44px;
+      border-radius: 999px;
+      font-size: 22px;
+      letter-spacing: .08em;
+      cursor: pointer;
+      box-shadow: 0 8px 26px rgba(212,175,55,.26);
+      transition: .25s;
+      font-family: inherit;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 34px rgba(212,175,55,.35);
+    }
+
+    .btn.outline {
+      background: transparent;
+      color: var(--gold);
+      box-shadow: none;
+    }
+
+    .btn.small {
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      gap: 12px;
+    }
+
+    .back {
+      color: var(--gold2);
+      border: 1px solid var(--line);
+      padding: 9px 16px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.15);
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .home {
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      color: var(--gold);
+      background: rgba(0,0,0,.2);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      font-size: 20px;
+    }
+
+    .section {
+      padding: 30px 20px 36px;
+      min-height: calc(100vh - 120px);
+    }
+
+    .title {
+      text-align: center;
+      color: var(--gold);
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 500;
+      letter-spacing: .08em;
+      margin: 10px 0 10px;
+    }
+
+    .desc {
+      text-align: center;
+      color: var(--gold2);
+      opacity: .9;
+      line-height: 1.9;
+      margin-bottom: 28px;
+      font-size: 17px;
+    }
+
+    .mode-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .mode-card {
+      min-height: 270px;
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(circle at 50% 25%, rgba(212,175,55,.16), transparent 34%),
+        rgba(10,16,32,.75);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 24px;
+      cursor: pointer;
+      transition: .25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mode-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 50px rgba(0,0,0,.35);
+      background:
+        radial-gradient(circle at 50% 25%, rgba(212,175,55,.22), transparent 34%),
+        rgba(10,16,32,.86);
+    }
+
+    .mode-icon {
+      font-size: 72px;
+      color: var(--gold);
+      margin-bottom: 20px;
+      text-shadow: 0 0 20px rgba(212,175,55,.25);
+    }
+
+    .mode-card h3 {
+      color: var(--gold2);
+      font-size: 26px;
+      font-weight: 400;
+      letter-spacing: .05em;
+    }
+
+    .spread-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    .spread {
+      border: 1px solid var(--line);
+      padding: 26px 16px;
+      background: rgba(10,16,32,.72);
+      text-align: center;
+      min-height: 190px;
+      cursor: pointer;
+      transition: .25s;
+    }
+
+    .spread:hover {
+      transform: translateY(-3px);
+      background: rgba(212,175,55,.08);
+    }
+
+    .spread .symbol {
+      font-size: 54px;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    .spread h3 {
+      color: var(--gold2);
+      font-size: 23px;
+      margin-bottom: 8px;
+      font-weight: 400;
+    }
+
+    .spread p {
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    .focus-wrap {
+      max-width: 820px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .deck-fan {
+      margin: 36px auto 22px;
+      min-height: 250px;
+      position: relative;
+    }
+
+    .fan-card {
+      position: absolute;
+      width: 92px;
+      height: 148px;
+      left: 50%;
+      top: 45px;
+      margin-left: -46px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background:
+        radial-gradient(circle at 50% 35%, rgba(212,175,55,.18), transparent 32%),
+        linear-gradient(145deg, #111833, #050812);
+      box-shadow: 0 10px 30px rgba(0,0,0,.28);
+      transform-origin: 50% 180px;
+    }
+
+    .fan-card::before {
+      content: "☾";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: var(--gold);
+      font-size: 42px;
+    }
+
+    .fan-card::after {
+      content: "";
+      position: absolute;
+      inset: 9px;
+      border: 1px solid rgba(212,175,55,.45);
+      border-radius: 6px;
+    }
+
+    .draw-area {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin: 26px auto;
+      max-width: 920px;
+    }
+
+    .draw-card {
+      width: 150px;
+      height: 235px;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+
+    .draw-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform .7s;
+      transform-style: preserve-3d;
+    }
+
+    .draw-card.flipped .draw-inner {
+      transform: rotateY(180deg);
+    }
+
+    .card-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      overflow: hidden;
+      background: #111833;
+      box-shadow: 0 12px 32px rgba(0,0,0,.38);
+    }
+
+    .card-back {
+      background:
+        radial-gradient(circle at 50% 35%, rgba(212,175,55,.18), transparent 30%),
+        linear-gradient(145deg, #111833, #050812);
+      display: grid;
+      place-items: center;
+    }
+
+    .card-back::before {
+      content: "☾";
+      color: var(--gold);
+      font-size: 60px;
+      filter: drop-shadow(0 0 15px rgba(212,175,55,.35));
+    }
+
+    .card-back::after {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border: 1px solid rgba(212,175,55,.55);
+      border-radius: 8px;
+    }
+
+    .card-front {
+      transform: rotateY(180deg);
+      background: #f3d37a;
+      color: #111;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .tarot-art {
+      flex: 1;
+      border: 1px solid rgba(0,0,0,.4);
+      background:
+        radial-gradient(circle at 50% 35%, #fff5b8, transparent 30%),
+        linear-gradient(180deg, #efd16a, #d9a532);
+      display: grid;
+      place-items: center;
+      font-size: 55px;
+      margin-bottom: 8px;
+    }
+
+    .tarot-name {
+      font-size: 16px;
+      font-weight: bold;
+      line-height: 1.3;
+    }
+
+    .position-label {
+      color: var(--gold);
+      text-align: center;
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 18px;
+      margin-top: 26px;
+    }
+
+    .result-box {
+      border: 1px solid var(--line);
+      background: rgba(10,16,32,.72);
+      padding: 20px;
+      line-height: 1.8;
+    }
+
+    .result-box h3 {
+      color: var(--gold);
+      font-size: 22px;
+      margin-bottom: 10px;
+      font-weight: 400;
+    }
+
+    .result-box p {
+      color: var(--gold2);
+      font-size: 15px;
+    }
+
+    .oracle-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .oracle-card {
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(circle at 50% 25%, rgba(212,175,55,.18), transparent 34%),
+        rgba(10,16,32,.75);
+      min-height: 310px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      text-align: center;
+      cursor: pointer;
+      transition: .25s;
+    }
+
+    .oracle-card:hover {
+      transform: translateY(-4px);
+      background: rgba(212,175,55,.1);
+    }
+
+    .oracle-img {
+      flex: 1;
+      display: grid;
+      place-items: center;
+      font-size: 68px;
+      color: var(--gold);
+      margin-bottom: 16px;
+      filter: drop-shadow(0 0 18px rgba(212,175,55,.3));
+    }
+
+    .oracle-card h3 {
+      color: var(--gold2);
+      font-size: 21px;
+      margin-bottom: 6px;
+      font-weight: 400;
+    }
+
+    .oracle-card p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .oracle-result {
+      display: grid;
+      grid-template-columns: 330px 1fr;
+      gap: 28px;
+      align-items: center;
+      max-width: 900px;
+      margin: 30px auto 0;
+    }
+
+    .oracle-big {
+      min-height: 450px;
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(circle at 50% 25%, rgba(212,175,55,.18), transparent 34%),
+        rgba(10,16,32,.78);
+      padding: 24px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+    }
+
+    .oracle-big .big-icon {
+      font-size: 98px;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .message {
+      color: var(--gold2);
+      line-height: 2.2;
+      font-size: 22px;
+      padding: 20px;
+    }
+
+    .message h3 {
+      color: var(--gold);
+      font-size: 30px;
+      font-weight: 400;
+      margin-bottom: 22px;
+    }
+
+    .records {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .record-item {
+      border: 1px solid var(--line);
+      background: rgba(10,16,32,.72);
+      padding: 18px;
+      margin-bottom: 14px;
+      line-height: 1.8;
+    }
+
+    .record-item h3 {
+      color: var(--gold);
+      font-weight: 400;
+      margin-bottom: 8px;
+    }
+
+    .empty {
+      text-align: center;
+      color: var(--muted);
+      margin-top: 40px;
+      line-height: 2;
+    }
+
+    .settings-box {
+      max-width: 760px;
+      margin: 0 auto;
+      border: 1px solid var(--line);
+      padding: 24px;
+      background: rgba(10,16,32,.72);
+      line-height: 2;
+    }
+
+    .color-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .color-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--gold2);
+    }
+
+    .swatch {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+    }
+
+    .bottom-nav {
+      position: fixed;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+      width: min(1180px, 100%);
+      background: rgba(5,8,18,.92);
+      border: 1px solid var(--line);
+      border-bottom: none;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      z-index: 20;
+      backdrop-filter: blur(8px);
+    }
+
+    .nav-item {
+      padding: 10px 4px 8px;
+      text-align: center;
+      color: var(--gold2);
+      font-size: 13px;
+      cursor: pointer;
+      border-right: 1px solid rgba(212,175,55,.18);
+    }
+
+    .nav-item:last-child {
+      border-right: none;
+    }
+
+    .nav-item span {
+      display: block;
+      font-size: 20px;
+      color: var(--gold);
+      margin-bottom: 3px;
+    }
+
+    .nav-item.active {
+      background: rgba(212,175,55,.1);
+      color: var(--gold);
+    }
+
+    @media (max-width: 760px) {
+      .hero {
+        min-height: 560px;
+        padding: 54px 18px;
+      }
+
+      .mode-grid,
+      .spread-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .oracle-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .oracle-result {
+        grid-template-columns: 1fr;
+      }
+
+      .oracle-big {
+        min-height: 360px;
+      }
+
+      .draw-card {
+        width: 130px;
+        height: 210px;
+      }
+
+      .bottom-nav {
+        grid-template-columns: repeat(5, 1fr);
+      }
+
+      .nav-item {
+        font-size: 11px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .oracle-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        font-size: 45px;
+      }
+
+      .hero .sub {
+        font-size: 15px;
+      }
+    }
+  </style>
 </head>
+
 <body>
+  <div class="app">
 
-<section class="page active" id="home">
-  <div class="top"><div>✦ SOUL NEST ✦</div><button class="btn-small" onclick="showHistory()">抽牌紀錄</button></div>
-  <div class="hero">
-    <div class="hero-moon"><div class="orbit"></div>☾</div>
-    <h1>SOUL NEST</h1>
-    <div class="sub">Where Your Soul Finds Answers</div>
-    <div class="divider"></div>
-    <div class="copy">跟隨直覺，<br>讓牌卡帶你看見內心的答案。</div>
-    <p class="muted">AI 儀式感抽牌　×　真人靈魂解析</p>
-    <button class="btn-gold" onclick="goPage('select')">開始抽牌</button>
+    <!-- 首頁 -->
+    <section id="home" class="page active">
+      <div class="hero gold-frame">
+        <div>
+          <div class="moon"></div>
+          <h1>SOUL NEST</h1>
+          <div class="en">Where Your Soul Finds Answers</div>
+          <div class="sub">
+            跟隨直覺，讓牌卡帶你看見內心的答案。<br>
+            AI 儀式感抽牌 × 真人靈感解析
+          </div>
+          <button class="btn" onclick="goPage('spread')">開始抽牌</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 牌陣選擇 -->
+    <section id="spread" class="page">
+      <div class="topbar">
+        <button class="back" onclick="goPage('home')">〈 上一步</button>
+        <button class="home" onclick="goPage('home')">⌂</button>
+      </div>
+
+      <div class="section gold-frame">
+        <h2 class="title">選擇牌陣</h2>
+        <p class="desc">請依照你現在想詢問的方向，選擇適合你的牌陣。</p>
+
+        <div class="spread-grid">
+          <div class="spread" onclick="selectSpread('聖三角牌陣', ['現況', '問題', '建議'])">
+            <div class="symbol">△</div>
+            <h3>聖三角牌陣</h3>
+            <p>現況・問題・建議<br>適合看事情目前的核心狀態</p>
+          </div>
+
+          <div class="spread" onclick="selectSpread('時間之流牌陣', ['過去', '現在', '未來'])">
+            <div class="symbol">⟶</div>
+            <h3>時間之流牌陣</h3>
+            <p>過去・現在・未來<br>適合看一件事的發展脈絡</p>
+          </div>
+
+          <div class="spread" onclick="selectSpread('身心靈牌陣', ['身', '心', '靈'])">
+            <div class="symbol">☼</div>
+            <h3>身心靈牌陣</h3>
+            <p>身・心・靈<br>適合看內在狀態與能量提醒</p>
+          </div>
+
+          <div class="spread" onclick="selectSpread('決策牌陣', ['選項A', '選項B'])">
+            <div class="symbol">✦</div>
+            <h3>決策牌陣</h3>
+            <p>A / B 選擇<br>適合比較兩個方向的差異</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 抽牌模式 -->
+    <section id="mode" class="page">
+      <div class="topbar">
+        <button class="back" onclick="goPage('spread')">〈 上一步</button>
+        <button class="home" onclick="goPage('home')">⌂</button>
+      </div>
+
+      <div class="section gold-frame">
+        <h2 class="title">選擇抽牌模式</h2>
+        <p class="desc">選擇適合你的抽牌方式。</p>
+
+        <div class="mode-grid">
+          <div class="mode-card" onclick="selectMode('upright')">
+            <div>
+              <div class="mode-icon">☾</div>
+              <h3>正位抽牌</h3>
+            </div>
+          </div>
+
+          <div class="mode-card" onclick="selectMode('mixed')">
+            <div>
+              <div class="mode-icon">☽☾</div>
+              <h3>正逆位抽牌</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 專注問題 -->
+    <section id="focus" class="page">
+      <div class="topbar">
+        <button class="back" onclick="goPage('mode')">〈 上一步</button>
+        <button class="home" onclick="goPage('home')">⌂</button>
+      </div>
+
+      <div class="section gold-frame">
+        <div class="focus-wrap">
+          <h2 class="title">專注你的問題</h2>
+          <p class="desc">
+            深呼吸，讓宇宙感受你的能量。<br>
+            靜靜想起你想詢問的問題，準備好後開始抽牌。
+          </p>
+
+          <div class="deck-fan" id="deckFan"></div>
+
+          <button class="btn" onclick="startDraw()">開始抽牌</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 抽牌 -->
+    <section id="draw" class="page">
+      <div class="topbar">
+        <button class="back" onclick="goPage('focus')">〈 上一步</button>
+        <button class="home" onclick="goPage('home')">⌂</button>
+      </div>
+
+      <div class="section gold-frame">
+        <h2 class="title" id="drawTitle">請抽牌</h2>
+        <p class="desc">請依序點選牌卡，讓訊息慢慢展開。</p>
+
+        <div id="drawArea" class="draw-area"></div>
+
+        <div style="text-align:center; margin-top:28px;">
+          <button class="btn outline" onclick="resetDraw()">重新抽牌</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 結果 -->
+    <section id="result" class="page">
+      <div class="topbar">
+        <button class="back" onclick="goPage('draw')">〈 上一步</button>
+        <button class="home" onclick="goPage('home')">⌂</button>
+      </div>
+
+      <div class="section gold-frame">
+        <h2 class="title">抽牌結果</h2>
+        <p class="desc" id="resultSub"></p>
+
+        <div id="resultCards" class="draw-area"></div>
+
+        <div id="resultText" class="result-grid"></div>
+
+        <div style="text-align:center; margin-top:30px;">
+          <button class="btn small" onclick="saveRecord()">儲存紀錄</button>
+          <button class="btn small outline" onclick="goPage('oracle')">抽神諭卡</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 神諭卡選擇 -->
+    <section id="oracle" class="page">
+      <div class="topbar">
+        <button class="back" onclick="goPage('result')">〈 上一步</button>
+        <button class="home" onclick="goPage('home')">⌂</button>
+      </div>
+
+      <div class="section gold-frame">
+        <h2 class="title">選擇神諭卡</h2>
+        <p class="desc">請選擇你想接收的神諭訊息。</p>
+
+        <div class="oracle-grid">
+          <div class="oracle-card" onclick="drawOracle('靈魂訊息')">
+            <div class="oracle-img">☾</div>
+            <h3>靈魂訊息</h3>
+            <p>人生方向</p>
+          </div>
+
+          <div class="oracle-card" onclick="drawOracle('感情訊息')">
+            <div class="oracle-img">♡</div>
+            <h3>感情訊息</h3>
+            <p>感情關係</p>
+          </div>
+
+          <div class="oracle-card" onclick="drawOracle('宇宙訊息')">
+            <div class="oracle-img">✦</div>
+            <h3>宇宙訊息</h3>
+            <p>近期提醒</p>
+          </div>
+
+          <div class="oracle-card" onclick="drawOracle('天使訊息')">
+            <div class="oracle-img">🪽</div>
+            <h3>天使訊息</h3>
+            <p>療癒祝福</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 神諭結果 -->
+    <section id="oracleResult" class="page">
+      <div class="topbar">
+        <button class="back" onclick="goPage('oracle')">〈 上一步</button>
+        <button class="home" onclick="goPage('home')">⌂</button>
+      </div>
+
+      <div class="section gold-frame">
+        <h2 class="title">神諭卡訊息</h2>
+
+        <div class="oracle-result">
+          <div class="oracle-big">
+            <div>
+              <div class="big-icon" id="oracleIcon">☾</div>
+              <h3 id="oracleCardTitle">Trust the Timing</h3>
+              <p id="oracleCardSub">信任過程</p>
+            </div>
+          </div>
+
+          <div class="message">
+            <h3 id="oracleType">宇宙訊息</h3>
+            <p id="oracleMessage">
+              有些事情不是沒有發生，<br>
+              而是在最適合的時間靠近你。<br><br>
+              請相信，你沒有錯過任何屬於你的東西。
+            </p>
+
+            <div style="margin-top:30px;">
+              <button class="btn small" onclick="saveOracleRecord()">儲存紀錄</button>
+              <button class="btn small outline" onclick="goPage('oracle')">回牌陣選擇</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 抽牌紀錄 -->
+    <section id="records" class="page">
+      <div class="topbar">
+        <button class="back" onclick="goPage('home')">〈 上一步</button>
+        <button class="home" onclick="goPage('home')">⌂</button>
+      </div>
+
+      <div class="section gold-frame">
+        <h2 class="title">抽牌紀錄</h2>
+        <p class="desc">這裡會保留你儲存過的塔羅與神諭訊息。</p>
+
+        <div id="recordList" class="records"></div>
+
+        <div style="text-align:center; margin-top:28px;">
+          <button class="btn small outline" onclick="clearRecords()">清除紀錄</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 我的收藏 -->
+    <section id="favorites" class="page">
+      <div class="topbar">
+        <button class="back" onclick="goPage('home')">〈 上一步</button>
+        <button class="home" onclick="goPage('home')">⌂</button>
+      </div>
+
+      <div class="section gold-frame">
+        <h2 class="title">我的收藏</h2>
+        <p class="desc">之後可以擴充成收藏牌卡、收藏解析、收藏神諭訊息。</p>
+        <div class="empty">
+          目前尚未建立收藏功能。<br>
+          可以下一步幫你加上「收藏這張牌」按鈕。
+        </div>
+      </div>
+    </section>
+
+    <!-- 設定 -->
+    <section id="settings" class="page">
+      <div class="topbar">
+        <button class="back" onclick="goPage('home')">〈 上一步</button>
+        <button class="home" onclick="goPage('home')">⌂</button>
+      </div>
+
+      <div class="section gold-frame">
+        <h2 class="title">設定</h2>
+        <p class="desc">品牌色彩與系統元素。</p>
+
+        <div class="settings-box">
+          <h3 style="color:var(--gold); font-weight:400; font-size:24px;">品牌色彩</h3>
+
+          <div class="color-list">
+            <div class="color-row">
+              <div class="swatch" style="background:#0B1020;"></div>
+              <div>深邃宇宙　#0B1020</div>
+            </div>
+
+            <div class="color-row">
+              <div class="swatch" style="background:#111833;"></div>
+              <div>午夜星空　#111833</div>
+            </div>
+
+            <div class="color-row">
+              <div class="swatch" style="background:#D4AF37;"></div>
+              <div>神秘金色　#D4AF37</div>
+            </div>
+
+            <div class="color-row">
+              <div class="swatch" style="background:#F8F6E2;"></div>
+              <div>珍珠白　#F8F6E2</div>
+            </div>
+          </div>
+
+          <div style="margin-top:24px;">
+            <h3 style="color:var(--gold); font-weight:400; font-size:24px;">元素 ICON</h3>
+            <p style="font-size:28px; color:var(--gold); letter-spacing:.5em; margin-top:10px;">
+              ☾ ✦ ☼ ✧ ♡ △ ⟶
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </div>
-</section>
 
-<section class="page" id="select">
-  <div class="top"><button class="btn-small" onclick="goBack()">〈 上一步</button><div class="top-title">✦ SOUL NEST ✦</div><button class="btn-small" onclick="goHome()">⌂</button></div>
-  <div class="center">
-    <h2>選擇牌陣</h2><div class="divider"></div><p class="muted">老師先與客戶討論問題，再選擇最適合的牌陣。</p>
-    <div class="spread-grid">
-      <div class="gold-card spread-card" onclick="chooseSpread('triangle')"><div class="icon">△</div><h3>聖三角牌陣</h3><p>現況・問題・建議<br>身・心・靈</p><div class="pill">6 張牌</div></div>
-      <div class="gold-card spread-card" onclick="chooseSpread('time')"><div class="icon">→</div><h3>時間之流牌陣</h3><p>過去・現在・未來<br>看事情的流動方向</p><div class="pill">3 張牌</div></div>
-      <div class="gold-card spread-card" onclick="chooseSpread('decision')"><div class="icon">☸</div><h3>決策牌陣</h3><p>命運之輪指引方向<br>A / B 選擇</p><div class="pill">6 張牌</div></div>
-      <div class="gold-card spread-card" onclick="chooseSpread('universal')"><div class="icon">✦</div><h3>萬用牌陣</h3><p>核心主因 70%<br>輔助訊息 30%</p><div class="pill">3 張牌</div></div>
+  <!-- 底部導覽 -->
+  <nav class="bottom-nav">
+    <div class="nav-item active" onclick="goPage('home')">
+      <span>⌂</span>首頁
     </div>
-  </div>
-</section>
-
-<section class="page" id="mode">
-  <div class="top"><button class="btn-small" onclick="goBack()">〈 上一步</button><div class="top-title">✦ SOUL NEST ✦</div><button class="btn-small" onclick="goHome()">⌂</button></div>
-  <div class="center">
-    <h2>選擇抽牌模式</h2><div class="divider"></div><p class="muted">選擇適合你的抽牌方式。</p>
-    <div class="mode-grid">
-      <div class="gold-card mode-card" onclick="chooseMode('upright')"><div class="card-back-large"><div class="moon">☾</div><div class="brand">SOUL NEST</div><div class="en">Where Your Soul<br>Finds Answers</div></div><h3>正位抽牌</h3><p class="muted">所有牌皆為正位。</p></div>
-      <div class="gold-card mode-card" onclick="chooseMode('normal')"><div class="card-back-large"><div class="moon">☽☾</div><div class="brand">SOUL NEST</div><div class="en">Where Your Soul<br>Finds Answers</div></div><h3>正逆位抽牌</h3><p class="muted">正位與逆位隨機出現。</p></div>
+    <div class="nav-item" onclick="goPage('records')">
+      <span>▤</span>抽牌紀錄
     </div>
-  </div>
-</section>
-
-<section class="page" id="shuffle">
-  <div class="top"><button class="btn-small" onclick="goBack()">〈 上一步</button><div class="top-title">✦ SOUL NEST ✦</div><button class="btn-small" onclick="goHome()">⌂</button></div>
-  <div class="center">
-    <h2>洗牌儀式動畫</h2>
-    <div class="shuffle-stage"><div class="float-card"></div><div class="float-card"></div><div class="float-card"></div><div class="float-card"></div><div class="float-card"></div><div class="float-card"></div></div>
-    <p class="muted">請在心中想著你的問題<br>相信你的直覺，宇宙正在聆聽。</p>
-    <div id="selectedInfo" class="badge"></div><div class="actions"><button class="btn-gold" onclick="goDraw()">開始抽牌</button></div>
-  </div>
-</section>
-
-<section class="page" id="draw">
-  <div class="top"><button class="btn-small" onclick="goBack()">〈 上一步</button><div class="top-title">✦ SOUL NEST ✦</div><button class="btn-small" onclick="goHome()">⌂</button></div>
-  <div class="center">
-    <h2 id="drawTitle">專注你的問題</h2><p id="drawCount" class="muted"></p><p class="muted">78 張偉特塔羅牌已洗牌完成，請依直覺選擇牌卡。</p>
-    <div class="deck-scroll"><div id="deck" class="deck"></div></div>
-  </div>
-</section>
-
-<section class="page" id="result">
-  <div class="top"><button class="btn-small" onclick="goBack()">〈 上一步</button><div class="top-title">✦ SOUL NEST ✦</div><div><button class="btn-small" onclick="toggleTeacherMode()">老師模式</button><button class="btn-small" onclick="goHome()">⌂</button></div></div>
-  <div class="center">
-    <h2 id="resultTitle">牌卡結果</h2><p class="muted">系統只顯示牌卡結果，不自動解牌。真正解析由老師親自說明。</p>
-    <div id="resultInfo" class="badge"></div><div id="resultLayout" class="result-layout"></div><div id="decisionNote"></div><div id="teacherKeywords"></div>
-    <div class="actions"><button class="btn-gold" onclick="goPage('oracleSelect')">查看神諭卡</button><button onclick="restartSame()">重新抽牌</button></div>
-  </div>
-</section>
-
-<section class="page" id="oracleSelect">
-  <div class="top"><button class="btn-small" onclick="goBack()">〈 上一步</button><div class="top-title">✦ SOUL NEST ✦</div><button class="btn-small" onclick="goHome()">⌂</button></div>
-  <div class="center">
-    <h2>選擇神諭卡</h2><p class="muted">請選擇你想要的神諭訊息。</p>
-    <div class="oracle-grid">
-      <div class="gold-card oracle-select" onclick="drawOracle('soul')"><div class="oracle-art">☾</div><h3>靈魂訊息</h3><p>人生方向</p></div>
-      <div class="gold-card oracle-select" onclick="drawOracle('love')"><div class="oracle-art">♡</div><h3>感情訊息</h3><p>感情專用</p></div>
-      <div class="gold-card oracle-select" onclick="drawOracle('cosmic')"><div class="oracle-art">✦</div><h3>宇宙訊息</h3><p>近期提醒</p></div>
-      <div class="gold-card oracle-select" onclick="drawOracle('angel')"><div class="oracle-art">☽</div><h3>天使訊息</h3><p>療癒祝福</p></div>
+    <div class="nav-item" onclick="goPage('favorites')">
+      <span>♡</span>我的收藏
     </div>
-  </div>
-</section>
+    <div class="nav-item" onclick="goPage('oracle')">
+      <span>☾</span>神諭卡牌
+    </div>
+    <div class="nav-item" onclick="goPage('settings')">
+      <span>⚙</span>設定
+    </div>
+  </nav>
 
-<section class="page" id="oracleResultPage">
-  <div class="top"><button class="btn-small" onclick="goBack()">〈 上一步</button><div class="top-title">✦ SOUL NEST ✦</div><button class="btn-small" onclick="goHome()">⌂</button></div>
-  <div class="center"><h2>神諭卡訊息</h2><div id="oracleResult"></div><div class="actions"><button class="btn-gold" onclick="saveRecord()">儲存紀錄</button><button onclick="goPage('select')">回牌陣選擇</button></div></div>
-</section>
+  <script>
+    const tarotDeck = [
+      { name: "愚人", icon: "🧳", meaning: "新的開始、自由、未知旅程。提醒你保持彈性，不要因為害怕而停止前進。" },
+      { name: "魔術師", icon: "✦", meaning: "資源、能力、創造力。你其實已經擁有開始的條件，重點是如何整合並行動。" },
+      { name: "女祭司", icon: "☾", meaning: "直覺、秘密、內在智慧。這件事還有未被看見的訊息，需要慢慢觀察。" },
+      { name: "皇后", icon: "🌹", meaning: "滋養、豐盛、魅力。適合用溫柔穩定的方式去孕育關係或計畫。" },
+      { name: "皇帝", icon: "♔", meaning: "秩序、掌控、責任。事情需要更明確的規則與界線。" },
+      { name: "教皇", icon: "⛪", meaning: "學習、傳統、指引。適合尋求專業建議，或按照成熟的方法前進。" },
+      { name: "戀人", icon: "♡", meaning: "選擇、關係、真誠溝通。這張牌提醒你要面對內心真正想選的方向。" },
+      { name: "戰車", icon: "🏹", meaning: "行動、意志、推進。只要目標清楚，就能突破目前卡住的狀態。" },
+      { name: "力量", icon: "🦁", meaning: "以柔克剛、耐心、內在力量。不是硬撐，而是溫柔地穩住自己。" },
+      { name: "隱者", icon: "🕯", meaning: "沉澱、思考、尋找答案。現在適合慢下來，聽見自己真正的聲音。" },
+      { name: "命運之輪", icon: "☼", meaning: "轉變、循環、時機。事情正在流動，不能只用眼前狀況判斷結果。" },
+      { name: "正義", icon: "⚖", meaning: "公平、判斷、因果。需要理性面對選擇，並承擔相對應的結果。" },
+      { name: "吊人", icon: "🔄", meaning: "等待、換位思考、暫停。不是沒進展，而是需要用不同角度看事情。" },
+      { name: "死神", icon: "🦋", meaning: "結束、轉化、重生。某些舊模式需要放下，新的階段才會開始。" },
+      { name: "節制", icon: "💧", meaning: "平衡、修復、調和。事情需要慢慢調整，不適合太急。" },
+      { name: "惡魔", icon: "⛓", meaning: "執著、誘惑、依賴。需要看清楚自己是否被慾望或恐懼綁住。" },
+      { name: "塔", icon: "⚡", meaning: "突發、崩塌、真相揭露。看似混亂，但也是打破舊結構的契機。" },
+      { name: "星星", icon: "✧", meaning: "希望、療癒、信任。即使還沒看到結果，也正在慢慢恢復光。" },
+      { name: "月亮", icon: "🌙", meaning: "不安、想像、潛意識。現在資訊不一定清楚，避免被情緒帶著走。" },
+      { name: "太陽", icon: "☀", meaning: "清楚、喜悅、成功。事情會逐漸明朗，也有被看見的機會。" },
+      { name: "審判", icon: "📯", meaning: "覺醒、回應、重新選擇。你需要正視內心真正的召喚。" },
+      { name: "世界", icon: "🌍", meaning: "完成、整合、階段成果。這是一個階段性的圓滿，也代表新的循環即將開始。" }
+    ];
 
-<section class="page" id="history">
-  <div class="top"><button class="btn-small" onclick="goBack()">〈 上一步</button><div class="top-title">✦ SOUL NEST ✦</div><button class="btn-small" onclick="goHome()">⌂</button></div>
-  <div class="center" style="justify-content:flex-start;padding-top:40px"><h2>我的牌陣紀錄</h2><p class="muted">目前使用瀏覽器暫存紀錄。</p><div class="actions"><button onclick="clearHistory()">清除紀錄</button></div><div id="historyList" class="history-list"></div></div>
-</section>
+    const oracleMessages = {
+      "靈魂訊息": [
+        {
+          title: "Return to Yourself",
+          sub: "回到自己",
+          icon: "☾",
+          msg: "你現在最需要的不是急著得到答案，而是先回到自己的中心。當你的心安靜下來，真正的方向就會慢慢浮現。"
+        },
+        {
+          title: "Your Soul Knows",
+          sub: "靈魂知道答案",
+          icon: "✦",
+          msg: "有些答案其實你早就感覺到了，只是還需要一點勇氣承認。請相信你的直覺，它正在保護你。"
+        }
+      ],
+      "感情訊息": [
+        {
+          title: "Soft Communication",
+          sub: "溫柔溝通",
+          icon: "♡",
+          msg: "這段關係需要的不是猜測，而是更真誠的表達。你可以溫柔，但不需要委屈自己。"
+        },
+        {
+          title: "Choose Love Wisely",
+          sub: "清醒地愛",
+          icon: "♡",
+          msg: "愛不是只有靠感覺，也需要看見對方是否願意一起經營。請把自己的感受也放進選擇裡。"
+        }
+      ],
+      "宇宙訊息": [
+        {
+          title: "Trust the Timing",
+          sub: "信任過程",
+          icon: "✦",
+          msg: "有些事情不是沒有發生，而是在最適合的時間靠近你。請相信，你沒有錯過任何屬於你的東西。"
+        },
+        {
+          title: "The Path is Opening",
+          sub: "道路正在展開",
+          icon: "☼",
+          msg: "你現在走的路也許還不明確，但它正在慢慢成形。每一步都不是白走的。"
+        }
+      ],
+      "天使訊息": [
+        {
+          title: "You Are Protected",
+          sub: "你被守護著",
+          icon: "🪽",
+          msg: "你不是一個人。即使現在有壓力，也有力量正在陪你度過。請允許自己慢慢來。"
+        },
+        {
+          title: "Healing Light",
+          sub: "療癒之光",
+          icon: "🪽",
+          msg: "你的心正在修復。不要責怪自己還沒完全好起來，療癒本來就需要時間。"
+        }
+      ]
+    };
 
-<nav class="bottom-nav">
-  <button onclick="goHome()"><span>⌂</span>首頁</button>
-  <button onclick="showHistory()"><span>▣</span>抽牌紀錄</button>
-  <button onclick="goPage('select')"><span>☾</span>牌陣</button>
-  <button onclick="goPage('oracleSelect')"><span>✦</span>神諭卡</button>
-  <button onclick="goHome()"><span>⚙</span>設定</button>
-</nav>
+    let selectedSpread = "";
+    let spreadPositions = [];
+    let selectedMode = "upright";
+    let drawnCards = [];
+    let flippedCount = 0;
+    let currentOracle = null;
 
-<script>
-const tarotCards=["愚人","魔術師","女祭司","皇后","皇帝","教皇","戀人","戰車","力量","隱者","命運之輪","正義","吊人","死神","節制","惡魔","塔","星星","月亮","太陽","審判","世界","權杖一","權杖二","權杖三","權杖四","權杖五","權杖六","權杖七","權杖八","權杖九","權杖十","權杖侍從","權杖騎士","權杖皇后","權杖國王","聖杯一","聖杯二","聖杯三","聖杯四","聖杯五","聖杯六","聖杯七","聖杯八","聖杯九","聖杯十","聖杯侍從","聖杯騎士","聖杯皇后","聖杯國王","寶劍一","寶劍二","寶劍三","寶劍四","寶劍五","寶劍六","寶劍七","寶劍八","寶劍九","寶劍十","寶劍侍從","寶劍騎士","寶劍皇后","寶劍國王","錢幣一","錢幣二","錢幣三","錢幣四","錢幣五","錢幣六","錢幣七","錢幣八","錢幣九","錢幣十","錢幣侍從","錢幣騎士","錢幣皇后","錢幣國王"];
-const img={"愚人":"ar00","魔術師":"ar01","女祭司":"ar02","皇后":"ar03","皇帝":"ar04","教皇":"ar05","戀人":"ar06","戰車":"ar07","力量":"ar08","隱者":"ar09","命運之輪":"ar10","正義":"ar11","吊人":"ar12","死神":"ar13","節制":"ar14","惡魔":"ar15","塔":"ar16","星星":"ar17","月亮":"ar18","太陽":"ar19","審判":"ar20","世界":"ar21","權杖一":"waac","權杖二":"wa02","權杖三":"wa03","權杖四":"wa04","權杖五":"wa05","權杖六":"wa06","權杖七":"wa07","權杖八":"wa08","權杖九":"wa09","權杖十":"wa10","權杖侍從":"wapa","權杖騎士":"wakn","權杖皇后":"waqu","權杖國王":"waki","聖杯一":"cuac","聖杯二":"cu02","聖杯三":"cu03","聖杯四":"cu04","聖杯五":"cu05","聖杯六":"cu06","聖杯七":"cu07","聖杯八":"cu08","聖杯九":"cu09","聖杯十":"cu10","聖杯侍從":"cupa","聖杯騎士":"cukn","聖杯皇后":"cuqu","聖杯國王":"cuki","寶劍一":"swac","寶劍二":"sw02","寶劍三":"sw03","寶劍四":"sw04","寶劍五":"sw05","寶劍六":"sw06","寶劍七":"sw07","寶劍八":"sw08","寶劍九":"sw09","寶劍十":"sw10","寶劍侍從":"swpa","寶劍騎士":"swkn","寶劍皇后":"swqu","寶劍國王":"swki","錢幣一":"peac","錢幣二":"pe02","錢幣三":"pe03","錢幣四":"pe04","錢幣五":"pe05","錢幣六":"pe06","錢幣七":"pe07","錢幣八":"pe08","錢幣九":"pe09","錢幣十":"pe10","錢幣侍從":"pepa","錢幣騎士":"pekn","錢幣皇后":"pequ","錢幣國王":"peki"};
-function cardUrl(n){return `https://www.sacred-texts.com/tarot/pkt/img/${img[n]}.jpg`}
-const spreads={triangle:{name:"聖三角牌陣",count:6,positions:["現況","問題","建議","身","心","靈"],layout:"layout-triangle"},time:{name:"時間之流牌陣",count:3,positions:["過去","現在","未來"],layout:"layout-time"},decision:{name:"決策牌陣",count:6,positions:["A方向","A補充","中間／共同能量","B補充","B方向","淺意識"],layout:"layout-decision"},universal:{name:"萬用牌陣",count:3,positions:["核心主因 70%","外在影響 15%","潛意識／提醒 15%"],layout:"layout-universal"}};
-const keywords={"力量":["耐心","溫柔","以柔克剛","內在力量"],"月亮":["不安","未知","潛意識","幻象"],"命運之輪":["轉機","命運","循環","變化"]};
-const oracleCards=[{type:"soul",cn:"信任過程",en:"Trust the Timing",msg:"有些事情不是沒有發生，\n而是在最適合的時間靠近你。\n\n請相信，\n你沒有錯過任何屬於你的東西。"},{type:"soul",cn:"回到自己",en:"Return to Yourself",msg:"當你停止向外尋找，\n答案就會慢慢浮現。"},{type:"love",cn:"真誠表達",en:"Speak Your Heart",msg:"被理解的開始，\n是願意說出自己的感受。"},{type:"love",cn:"尊重界線",en:"Healthy Boundaries",msg:"真正的愛，\n不需要你失去自己。"},{type:"cosmic",cn:"順流而行",en:"Go With the Flow",msg:"當你停止對抗，\n事情會開始自然流動。"},{type:"cosmic",cn:"一切都有安排",en:"Divine Timing",msg:"看似巧合，\n其實都有它的意義。"},{type:"angel",cn:"溫柔對待自己",en:"Be Gentle With Yourself",msg:"你已經很努力了，\n請不要再苛責自己。"},{type:"angel",cn:"祝福",en:"Blessings",msg:"此刻的你已經足夠好了，\n願祝福在最適合的時間來到你身邊。"}];
-let stack=["home"],currentSpread,currentSpreadId,currentMode="normal",upright=50,selected=[],deck=[],results=[],oracle,teacher=false;
-const modeText={upright:"正位抽牌",normal:"正逆位抽牌"};
-function show(id){document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));document.getElementById(id).classList.add("active");scrollTo(0,0)}
-function goPage(id){show(id);if(stack[stack.length-1]!==id)stack.push(id)}
-function goBack(){if(stack.length<=1)return goHome();stack.pop();show(stack[stack.length-1]||"home")}
-function goHome(){stack=["home"];show("home")}
-function chooseSpread(id){currentSpreadId=id;currentSpread=spreads[id];selected=[];results=[];oracle=null;teacher=false;goPage("mode")}
-function chooseMode(m){currentMode=m;upright=m==="upright"?100:50;document.getElementById("selectedInfo").innerText=`${currentSpread.name}｜${modeText[currentMode]}`;goPage("shuffle")}
-function goDraw(){selected=[];results=[];deck=tarotCards.map(name=>({name}));document.getElementById("drawTitle").innerText=currentSpread.name;updateCount();const box=document.getElementById("deck");box.innerHTML="";tarotCards.forEach((_,i)=>{const c=document.createElement("div");c.className="draw-card";c.innerHTML="<span>☾</span>";c.onclick=()=>pick(i,c);box.appendChild(c)});goPage("draw")}
-function updateCount(){document.getElementById("drawCount").innerText=`請依序抽出 ${currentSpread.count} 張牌｜已選擇 ${selected.length} / ${currentSpread.count}`}
-function pick(i,el){if(selected.includes(i)||selected.length>=currentSpread.count)return;selected.push(i);el.classList.add("selected");updateCount();if(selected.length===currentSpread.count){document.querySelectorAll(".draw-card").forEach(c=>c.classList.add("disabled"));setTimeout(()=>{makeResults();renderResults();goPage("result")},500)}}
-function ori(){return Math.random()*100<upright?"正位":"逆位"}
-function drawOne(noWheel=false){const pool=deck.filter(c=>!noWheel||c.name!=="命運之輪");const p=pool[Math.floor(Math.random()*pool.length)];deck=deck.filter(c=>c.name!==p.name);return p.name}
-function makeResults(){deck=tarotCards.map(name=>({name}));results=[];if(currentSpreadId==="decision"){const wheel=Math.floor(Math.random()*5);["A方向","A補充","中間／共同能量","B補充","B方向"].forEach((pos,i)=>results.push({position:pos,name:i===wheel?"命運之輪":drawOne(true),orientation:ori()}));results.push({position:"淺意識",name:drawOne(true),orientation:ori()});return}currentSpread.positions.forEach(pos=>results.push({position:pos,name:drawOne(false),orientation:ori()}))}
-function renderResults(){document.getElementById("resultTitle").innerText=currentSpread.name+"｜牌卡結果";document.getElementById("resultInfo").innerText=modeText[currentMode];const box=document.getElementById("resultLayout");box.className="result-layout "+currentSpread.layout;box.innerHTML="";results.forEach((r,i)=>{let d=document.createElement("div");let extra=currentSpreadId==="universal"&&i===0?" core":"";if(r.name==="命運之輪")extra+=" wheel";d.className="result-card gold-card"+extra;d.innerHTML=`<div class="position">${r.position}</div><img class="card-img ${r.orientation==="逆位"?"reversed":""}" src="${cardUrl(r.name)}"><div class="card-name">${r.name}</div><div class="orientation">${r.orientation}</div>`;box.appendChild(d)});decisionNote();teacherBox()}
-function decisionNote(){const el=document.getElementById("decisionNote");el.innerHTML="";if(currentSpreadId!=="decision")return;const w=results.find(r=>r.name==="命運之輪");const msg=w.position.includes("A")?"命運之輪偏向 A，代表目前能量較支持 A 方向。":w.position.includes("B")?"命運之輪偏向 B，代表目前能量較支持 B 方向。":"命運之輪落在中間，代表 A / B 都可以，重點在於你怎麼選擇與承擔。";el.innerHTML=`<div class="note"><b>☸ 決策提示：</b><br>${msg}</div>`}
-function toggleTeacherMode(){teacher=!teacher;teacherBox()}
-function teacherBox(){const box=document.getElementById("teacherKeywords");box.innerHTML="";if(!teacher)return;box.innerHTML='<div class="teacher-box gold-card"><h3>老師模式｜牌義關鍵字</h3>'+results.map(r=>`<span class="badge">${r.position}｜${r.name}：${(keywords[r.name]||["依牌位解讀","由老師補充"]).join("・")}</span>`).join("")+"</div>"}
-function drawOracle(type){const pool=oracleCards.filter(c=>c.type===type);oracle=pool[Math.floor(Math.random()*pool.length)];document.getElementById("oracleResult").innerHTML=`<div class="oracle-result"><div class="oracle-image"><div class="big">☾</div><div class="star">✦</div></div><div class="oracle-text"><div class="en">${oracle.en}</div><h3>${oracle.cn}</h3><p>${oracle.msg}</p></div></div>`;goPage("oracleResultPage")}
-function saveRecord(){const rec={date:new Date().toLocaleString("zh-TW"),spread:currentSpread?.name||"",mode:modeText[currentMode],cards:results,oracle};const old=JSON.parse(localStorage.getItem("soulNestRecords")||"[]");old.unshift(rec);localStorage.setItem("soulNestRecords",JSON.stringify(old.slice(0,30)));alert("已儲存紀錄")}
-function restartSame(){if(currentSpread)goPage("shuffle")}
-function showHistory(){const list=document.getElementById("historyList");const records=JSON.parse(localStorage.getItem("soulNestRecords")||"[]");list.innerHTML=records.length?records.map(r=>`<div class="history-card gold-card"><p><b>${r.date}</b></p><p><span class="badge">${r.spread}</span><span class="badge">${r.mode}</span></p><p>${r.cards.map(c=>`${c.position}：${c.name}（${c.orientation}）`).join("<br>")}</p>${r.oracle?`<p><b>神諭卡：</b>${r.oracle.cn}<br>${r.oracle.msg}</p>`:""}</div>`).join(""):'<p class="muted">目前還沒有抽牌紀錄。</p>';goPage("history")}
-function clearHistory(){if(confirm("確定清除所有紀錄嗎？")){localStorage.removeItem("soulNestRecords");showHistory()}}
-</script>
+    function goPage(id) {
+      document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+
+      document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
+      const navMap = {
+        home: 0,
+        records: 1,
+        favorites: 2,
+        oracle: 3,
+        settings: 4
+      };
+
+      if (navMap[id] !== undefined) {
+        document.querySelectorAll(".nav-item")[navMap[id]].classList.add("active");
+      }
+
+      if (id === "records") renderRecords();
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function selectSpread(name, positions) {
+      selectedSpread = name;
+      spreadPositions = positions;
+      goPage("mode");
+    }
+
+    function selectMode(mode) {
+      selectedMode = mode;
+      createFan();
+      goPage("focus");
+    }
+
+    function createFan() {
+      const fan = document.getElementById("deckFan");
+      fan.innerHTML = "";
+
+      for (let i = 0; i < 17; i++) {
+        const c = document.createElement("div");
+        c.className = "fan-card";
+        const deg = -42 + i * 5.2;
+        c.style.transform = `rotate(${deg}deg) translateY(${Math.abs(i - 8) * 1}px)`;
+        fan.appendChild(c);
+      }
+    }
+
+    function startDraw() {
+      drawnCards = [];
+      flippedCount = 0;
+
+      const pool = [...tarotDeck].sort(() => Math.random() - 0.5);
+      const count = spreadPositions.length;
+
+      for (let i = 0; i < count; i++) {
+        const base = pool[i];
+        const reversed = selectedMode === "mixed" ? Math.random() < 0.5 : false;
+
+        drawnCards.push({
+          ...base,
+          position: spreadPositions[i],
+          reversed
+        });
+      }
+
+      renderDrawCards();
+      goPage("draw");
+    }
+
+    function renderDrawCards() {
+      const area = document.getElementById("drawArea");
+      const title = document.getElementById("drawTitle");
+      area.innerHTML = "";
+
+      title.textContent = selectedSpread + "｜請依序抽牌";
+
+      drawnCards.forEach((card, index) => {
+        const wrap = document.createElement("div");
+        wrap.innerHTML = `
+          <div class="position-label">${card.position}</div>
+          <div class="draw-card" onclick="flipCard(this, ${index})">
+            <div class="draw-inner">
+              <div class="card-face card-back"></div>
+              <div class="card-face card-front">
+                <div class="tarot-art">${card.icon}</div>
+                <div class="tarot-name">
+                  ${card.name}<br>
+                  ${card.reversed ? "逆位" : "正位"}
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        area.appendChild(wrap);
+      });
+    }
+
+    function flipCard(el, index) {
+      if (el.classList.contains("flipped")) return;
+      el.classList.add("flipped");
+      flippedCount++;
+
+      if (flippedCount === drawnCards.length) {
+        setTimeout(showResult, 800);
+      }
+    }
+
+    function showResult() {
+      const cardArea = document.getElementById("resultCards");
+      const textArea = document.getElementById("resultText");
+      const sub = document.getElementById("resultSub");
+
+      cardArea.innerHTML = "";
+      textArea.innerHTML = "";
+      sub.textContent = `${selectedSpread}｜${selectedMode === "upright" ? "正位抽牌" : "正逆位抽牌"}`;
+
+      drawnCards.forEach(card => {
+        const wrap = document.createElement("div");
+        wrap.innerHTML = `
+          <div class="position-label">${card.position}</div>
+          <div class="draw-card flipped">
+            <div class="draw-inner">
+              <div class="card-face card-back"></div>
+              <div class="card-face card-front">
+                <div class="tarot-art">${card.icon}</div>
+                <div class="tarot-name">
+                  ${card.name}<br>
+                  ${card.reversed ? "逆位" : "正位"}
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        cardArea.appendChild(wrap);
+
+        const box = document.createElement("div");
+        box.className = "result-box";
+        box.innerHTML = `
+          <h3>${card.position}｜${card.name}${card.reversed ? "逆位" : "正位"}</h3>
+          <p>${makeMeaning(card)}</p>
+        `;
+        textArea.appendChild(box);
+      });
+
+      goPage("result");
+    }
+
+    function makeMeaning(card) {
+      if (!card.reversed) {
+        return card.meaning;
+      }
+
+      return `這張牌逆位時，通常代表能量還沒有順利流動，或是這個課題被壓住、逃避、延遲。以「${card.name}」來說，你需要先看見自己在哪裡卡住，再慢慢調整方向。`;
+    }
+
+    function resetDraw() {
+      startDraw();
+    }
+
+    function drawOracle(type) {
+      const list = oracleMessages[type];
+      currentOracle = list[Math.floor(Math.random() * list.length)];
+
+      document.getElementById("oracleType").textContent = type;
+      document.getElementById("oracleIcon").textContent = currentOracle.icon;
+      document.getElementById("oracleCardTitle").textContent = currentOracle.title;
+      document.getElementById("oracleCardSub").textContent = currentOracle.sub;
+      document.getElementById("oracleMessage").innerHTML = currentOracle.msg.replace(/\n/g, "<br>");
+
+      goPage("oracleResult");
+    }
+
+    function saveRecord() {
+      const records = JSON.parse(localStorage.getItem("soulNestRecords") || "[]");
+      const now = new Date().toLocaleString("zh-TW");
+
+      records.unshift({
+        type: "塔羅抽牌",
+        time: now,
+        spread: selectedSpread,
+        mode: selectedMode === "upright" ? "正位抽牌" : "正逆位抽牌",
+        cards: drawnCards.map(c => `${c.position}：${c.name}${c.reversed ? "逆位" : "正位"}`).join("、")
+      });
+
+      localStorage.setItem("soulNestRecords", JSON.stringify(records));
+      alert("已儲存抽牌紀錄");
+    }
+
+    function saveOracleRecord() {
+      if (!currentOracle) return;
+
+      const records = JSON.parse(localStorage.getItem("soulNestRecords") || "[]");
+      const now = new Date().toLocaleString("zh-TW");
+
+      records.unshift({
+        type: "神諭卡",
+        time: now,
+        spread: currentOracle.title,
+        mode: currentOracle.sub,
+        cards: currentOracle.msg
+      });
+
+      localStorage.setItem("soulNestRecords", JSON.stringify(records));
+      alert("已儲存神諭紀錄");
+    }
+
+    function renderRecords() {
+      const list = document.getElementById("recordList");
+      const records = JSON.parse(localStorage.getItem("soulNestRecords") || "[]");
+
+      if (!records.length) {
+        list.innerHTML = `
+          <div class="empty">
+            目前還沒有抽牌紀錄。<br>
+            你可以先完成一次抽牌後按「儲存紀錄」。
+          </div>
+        `;
+        return;
+      }
+
+      list.innerHTML = records.map(r => `
+        <div class="record-item">
+          <h3>${r.type}｜${r.time}</h3>
+          <p><strong>${r.spread}</strong></p>
+          <p>${r.mode}</p>
+          <p>${r.cards}</p>
+        </div>
+      `).join("");
+    }
+
+    function clearRecords() {
+      if (!confirm("確定要清除所有紀錄嗎？")) return;
+      localStorage.removeItem("soulNestRecords");
+      renderRecords();
+    }
+
+    createFan();
+  </script>
 </body>
 </html>
