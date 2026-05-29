@@ -1,929 +1,1043 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Soul Nest | 靈魂棲息地 塔羅占卜系統</title>
-    <!-- 外部襯線字體 -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Noto+Serif+TC:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-dark: #0B1020;
-            --bg-mid: #111833;
-            --gold-main: #D4AF37;
-            --gold-light: #E8D4A0;
-            --text-base: #F8F6E2;
-            --gold-shadow: rgba(212, 175, 55, 0.35);
-            --gold-border: rgba(212, 175, 55, 0.5);
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SOUL NEST Tarot</title>
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<style>
+:root{
+  --gold:#D4AF37;
+  --text:#F8F6E2;
+  --bg:#020814;
+}
 
-        body {
-            font-family: "Noto Serif TC", serif;
-            background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-mid) 100%);
-            color: var(--text-base);
-            min-height: 100vh;
-            overflow-x: hidden;
-            padding-bottom: 85px;
-            position: relative;
-        }
+*{
+  box-sizing:border-box;
+}
 
-        /* 星空粒子背景 */
-        .star-field {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-            background-image: 
-                radial-gradient(1px 1px at 15% 20%, #fff, transparent),
-                radial-gradient(1.5px 1.5px at 40% 60%, var(--gold-light), transparent),
-                radial-gradient(1px 1px at 70% 30%, #fff, transparent),
-                radial-gradient(2px 2px at 85% 80%, var(--gold-light), transparent),
-                radial-gradient(1px 1px at 25% 85%, #fff, transparent),
-                radial-gradient(1.5px 1.5px at 55% 10%, var(--gold-light), transparent);
-            background-size: 100% 100%;
-            opacity: 0.8;
-        }
+html,body{
+  margin:0;
+  min-height:100%;
+  background:#020814;
+  color:var(--text);
+  font-family:"Noto Serif TC","Times New Roman",serif;
+  overflow-x:hidden;
+}
 
-        /* 星雲霧氣層 */
-        .nebula {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(ellipse at center, rgba(17, 24, 51, 0.4) 0%, transparent 70%);
-            z-index: 0;
-            pointer-events: none;
-        }
+button{
+  font-family:inherit;
+}
 
-        /* 主容器 */
-        .container {
-            position: relative;
-            z-index: 2;
-            max-width: 440px;
-            margin: 0 auto;
-            padding: 24px 18px;
-        }
+.page{
+  display:none;
+  min-height:100vh;
+  position:relative;
+  background:#020814 center top/cover no-repeat;
+}
 
-        /* 通用卡片 + 古典金邊樣式 */
-        .mystic-card {
-            background: rgba(17, 24, 51, 0.75);
-            border: 1px solid var(--gold-border);
-            border-radius: 14px;
-            padding: 22px;
-            margin-bottom: 24px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 0 18px var(--gold-shadow);
-            position: relative;
-        }
+.page.active{
+  display:block;
+}
 
-        /* 四角裝飾邊框 */
-        .mystic-card::before,
-        .mystic-card::after {
-            content: "";
-            position: absolute;
-            width: 24px;
-            height: 24px;
-            border-color: var(--gold-main);
-            border-style: solid;
-            border-width: 1px 0 0 1px;
-            top: 10px;
-            left: 10px;
-        }
-        .mystic-card::after {
-            border-width: 0 1px 1px 0;
-            top: auto;
-            left: auto;
-            bottom: 10px;
-            right: 10px;
-        }
+.screen{
+  width:min(100vw,820px);
+  min-height:100vh;
+  margin:0 auto;
+  position:relative;
+  background-position:center top;
+  background-size:100% auto;
+  background-repeat:no-repeat;
+}
 
-        .title-main {
-            font-family: "Cinzel", serif;
-            color: var(--gold-main);
-            text-align: center;
-            letter-spacing: 2px;
-            font-weight: 500;
-        }
+.screen::before{
+  content:"";
+  display:block;
+  width:100%;
+  padding-top:133.3333%;
+}
 
-        .desc-text {
-            text-align: center;
-            opacity: 0.85;
-            line-height: 1.7;
-            font-size: 0.92rem;
-            margin: 10px 0 18px;
-        }
+.hotspot{
+  position:absolute;
+  border:0;
+  background:rgba(255,255,255,0);
+  cursor:pointer;
+  border-radius:18px;
+}
 
-        /* Hero 首頁橫幅 */
-        .hero-banner {
-            border: 1px solid var(--gold-border);
-            border-radius: 18px;
-            padding: 48px 20px;
-            text-align: center;
-            margin-bottom: 32px;
-            background: rgba(17, 24, 51, 0.6);
-            box-shadow: 0 0 24px var(--gold-shadow);
-            position: relative;
-            overflow: hidden;
-        }
+.hotspot:active{
+  background:rgba(212,175,55,.12);
+}
 
-        .hero-banner h1 {
-            font-family: "Cinzel", serif;
-            font-size: 2.8rem;
-            color: var(--gold-main);
-            letter-spacing: 6px;
-            margin-bottom: 12px;
-        }
+.hidden-label{
+  position:absolute;
+  left:-9999px;
+}
 
-        .hero-banner p {
-            font-family: "Cinzel", serif;
-            font-size: 1.05rem;
-            color: var(--text-base);
-            opacity: 0.9;
-            letter-spacing: 1px;
-            margin-bottom: 30px;
-        }
+/* 這裡是你上傳的畫面底圖 */
+#home .screen{background-image:url("首頁.png");}
+#spread .screen{background-image:url("選擇牌陣.png");}
+#mode .screen{background-image:url("正位逆位選擇.png");}
+#focus .screen{background-image:url("想題目抽牌.png");}
+#shuffle .screen{background-image:url("洗牌中.png");}
+#result .screen{background-image:url("抽牌結果.png");}
+#oracle .screen{background-image:url("神諭卡選擇.png");}
+#oracleAnswer .screen{background-image:url("神諭卡解答.png");}
 
-        /* 按鈕樣式 古典金質 */
-        .btn-mystic {
-            font-family: "Cinzel", serif;
-            background: linear-gradient(135deg, var(--gold-main) 0%, var(--gold-light) 100%);
-            color: var(--bg-dark);
-            border: none;
-            padding: 13px 42px;
-            border-radius: 32px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            letter-spacing: 1.5px;
-            transition: all 0.4s ease;
-            box-shadow: 0 0 12px var(--gold-shadow);
-        }
+/* 首頁按鈕 */
+.home-start{
+  left:32%;
+  top:55%;
+  width:36%;
+  height:8%;
+}
 
-        .btn-mystic:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 22px var(--gold-main);
-        }
+.home-nav-tarot{
+  left:38%;
+  top:5%;
+  width:12%;
+  height:5%;
+}
 
-        .btn-outline {
-            background: transparent;
-            border: 1px solid var(--gold-main);
-            color: var(--gold-main);
-        }
+.home-nav-oracle{
+  left:52%;
+  top:5%;
+  width:12%;
+  height:5%;
+}
 
-        /* 牌陣網格 */
-        .spread-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
+.home-nav-history{
+  left:66%;
+  top:5%;
+  width:12%;
+  height:5%;
+}
 
-        .spread-item {
-            background: rgba(212, 175, 55, 0.08);
-            border: 1px solid var(--gold-border);
-            border-radius: 12px;
-            padding: 20px 14px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.35s ease;
-        }
+.home-nav-setting{
+  left:87%;
+  top:5%;
+  width:8%;
+  height:5%;
+}
 
-        .spread-item.active {
-            background: rgba(212, 175, 55, 0.18);
-            border-color: var(--gold-main);
-            box-shadow: 0 0 10px var(--gold-shadow);
-        }
+/* 牌陣選擇 */
+.spread-triangle{
+  left:12%;
+  top:20%;
+  width:37%;
+  height:30%;
+}
 
-        .spread-item:hover {
-            background: rgba(212, 175, 55, 0.14);
-            transform: scale(1.03);
-        }
+.spread-time{
+  left:52%;
+  top:20%;
+  width:37%;
+  height:30%;
+}
 
-        .spread-icon {
-            font-family: "Cinzel", serif;
-            font-size: 2rem;
-            color: var(--gold-main);
-            margin-bottom: 10px;
-        }
+.spread-decision{
+  left:12%;
+  top:53%;
+  width:37%;
+  height:30%;
+}
 
-        .spread-name {
-            color: var(--text-base);
-            font-weight: 600;
-            font-size: 0.95rem;
-            margin-bottom: 4px;
-        }
+.spread-spirit{
+  left:52%;
+  top:53%;
+  width:37%;
+  height:30%;
+}
 
-        .spread-desc {
-            font-size: 0.78rem;
-            opacity: 0.75;
-            line-height: 1.5;
-        }
+/* 底部導覽 */
+.bottom-home{
+  left:4%;
+  top:88%;
+  width:17%;
+  height:9%;
+}
 
-        /* 抽牌模式選擇 */
-        .mode-wrap {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-        }
+.bottom-history{
+  left:22%;
+  top:88%;
+  width:19%;
+  height:9%;
+}
 
-        .mode-item {
-            width: 130px;
-            padding: 26px 12px;
-            background: rgba(212, 175, 55, 0.08);
-            border: 1px solid var(--gold-border);
-            border-radius: 12px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.35s ease;
-        }
+.bottom-fav{
+  left:42%;
+  top:88%;
+  width:18%;
+  height:9%;
+}
 
-        .mode-item.active {
-            background: rgba(212, 175, 55, 0.18);
-            border-color: var(--gold-main);
-            box-shadow: 0 0 10px var(--gold-shadow);
-        }
+.bottom-oracle{
+  left:61%;
+  top:88%;
+  width:20%;
+  height:9%;
+}
 
-        .mode-item:hover {
-            background: rgba(212, 175, 55, 0.14);
-        }
+.bottom-setting{
+  left:82%;
+  top:88%;
+  width:15%;
+  height:9%;
+}
 
-        .mode-icon {
-            font-size: 2.2rem;
-            color: var(--gold-main);
-            margin-bottom: 12px;
-        }
+/* 抽牌模式 */
+.mode-upright{
+  left:12%;
+  top:28%;
+  width:37%;
+  height:48%;
+}
 
-        /* 洗牌動畫區域 */
-        .shuffle-area {
-            padding: 40px 20px;
-            text-align: center;
-        }
+.mode-normal{
+  left:53%;
+  top:28%;
+  width:37%;
+  height:48%;
+}
 
-        .card-shuffle {
-            width: 80px;
-            height: 126px;
-            margin: 30px auto;
-            position: relative;
-            perspective: 1200px;
-        }
+/* 想題目頁 */
+.focus-start{
+  left:25%;
+  top:79%;
+  width:50%;
+  height:9%;
+}
 
-        .shuffle-card {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(145deg, #202a47, var(--bg-dark));
-            border: 1.5px solid var(--gold-main);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--gold-main);
-            font-size: 2rem;
-            box-shadow: 0 0 16px var(--gold-shadow);
-        }
+/* 洗牌頁 */
+.shuffle-next{
+  left:27%;
+  top:82%;
+  width:46%;
+  height:8%;
+}
 
-        /* 卡牌旋轉洗牌動畫 */
-        @keyframes cardSpin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .spin-anim {
-            animation: cardSpin 2.2s linear infinite;
-        }
+/* 抽牌頁：用想題目那張當背景，疊 78 張牌 */
+#draw .screen{
+  background-image:url("想題目抽牌.png");
+}
 
-        /* 抽牌區 & 3D翻牌 */
-        .draw-area {
-            padding: 30px 16px;
-            text-align: center;
-        }
+.draw-title{
+  position:absolute;
+  left:10%;
+  right:10%;
+  top:11%;
+  text-align:center;
+  color:#F5D37A;
+  font-size:clamp(26px,7vw,58px);
+  letter-spacing:.14em;
+  text-shadow:0 0 18px rgba(212,175,55,.5);
+  font-weight:700;
+}
 
-        .card-row {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 26px 0;
-        }
+.draw-count{
+  position:absolute;
+  left:8%;
+  right:8%;
+  top:20%;
+  text-align:center;
+  color:#F8F6E2;
+  font-size:clamp(14px,3.4vw,24px);
+  letter-spacing:.08em;
+  line-height:1.7;
+}
 
-        .tarot-flip-card {
-            width: 72px;
-            height: 118px;
-            position: relative;
-            perspective: 1000px;
-            cursor: pointer;
-        }
+.deck-area{
+  position:absolute;
+  left:7%;
+  right:7%;
+  top:31%;
+  bottom:18%;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-content:center;
+  justify-content:center;
+  overflow:auto;
+  padding:10px;
+}
 
-        .flip-inner {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            transform-style: preserve-3d;
-        }
+.deck-card{
+  width:52px;
+  height:84px;
+  border:1px solid rgba(212,175,55,.85);
+  border-radius:9px;
+  background:
+    radial-gradient(circle at 50% 40%,rgba(245,211,122,.16),transparent 20%),
+    repeating-radial-gradient(circle at 50% 50%,rgba(212,175,55,.18) 0 1px,transparent 1px 14px),
+    linear-gradient(180deg,#081326,#040914);
+  box-shadow:0 0 12px rgba(212,175,55,.18);
+  position:relative;
+  cursor:pointer;
+  flex:0 0 auto;
+}
 
-        .tarot-flip-card.flipped .flip-inner {
-            transform: rotateY(180deg);
-        }
+.deck-card::before{
+  content:"";
+  position:absolute;
+  inset:5px;
+  border:1px solid rgba(212,175,55,.48);
+  border-radius:6px;
+}
 
-        .flip-front, .flip-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 10px;
-            backface-visibility: hidden;
-            border: 1.5px solid var(--gold-border);
-        }
+.deck-card::after{
+  content:"☾";
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  color:#F5D37A;
+  font-size:24px;
+  text-shadow:0 0 10px rgba(212,175,55,.5);
+}
 
-        /* 塔羅牌背面 經典紋路 */
-        .flip-back {
-            background: linear-gradient(145deg, #1a2442, #0c1328);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--gold-main);
-            font-size: 2rem;
-            box-shadow: 0 0 12px var(--gold-shadow);
-        }
+.deck-card.selected{
+  transform:translateY(-8px);
+  box-shadow:0 0 20px rgba(245,211,122,.65);
+}
 
-        /* 塔羅牌正面 偉特牌 */
-        .flip-front {
-            transform: rotateY(180deg);
-            overflow: hidden;
-            background: #f0e9dd;
-        }
+.deck-card.disabled{
+  opacity:.35;
+  pointer-events:none;
+}
 
-        .flip-front img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+/* 結果頁覆蓋真實牌卡 */
+.result-overlay{
+  position:absolute;
+  left:10%;
+  right:10%;
+  top:25%;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:22px 34px;
+  justify-items:center;
+}
 
-        /* 牌位標籤：現況/問題/建議/身心靈 */
-        .position-label {
-            display: inline-block;
-            margin: 6px 4px;
-            font-size: 0.8rem;
-            color: var(--gold-light);
-            min-width: 70px;
-        }
+.result-card{
+  text-align:center;
+  color:#F5D37A;
+}
 
-        /* 神諭卡選擇網格 */
-        .oracle-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-        }
+.result-pos{
+  font-size:clamp(16px,3.5vw,30px);
+  letter-spacing:.12em;
+  margin-bottom:8px;
+  font-weight:700;
+}
 
-        .oracle-item {
-            background: rgba(212, 175, 55, 0.08);
-            border: 1px solid var(--gold-border);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.35s ease;
-        }
+.result-sub{
+  color:#F8F6E2;
+  font-size:clamp(11px,2.3vw,17px);
+  margin-top:-4px;
+  margin-bottom:8px;
+}
 
-        .oracle-item.active {
-            background: rgba(212, 175, 55, 0.18);
-            border-color: var(--gold-main);
-            box-shadow: 0 0 10px var(--gold-shadow);
-        }
+.result-card img{
+  width:min(21vw,145px);
+  height:auto;
+  aspect-ratio:.58;
+  object-fit:cover;
+  border:3px solid rgba(212,175,55,.92);
+  border-radius:8px;
+  background:#111;
+  box-shadow:0 0 18px rgba(212,175,55,.3);
+}
 
-        .oracle-item:hover {
-            transform: scale(1.03);
-            background: rgba(212, 175, 55, 0.14);
-        }
+.result-card img.reversed{
+  transform:rotate(180deg);
+}
 
-        .oracle-icon {
-            font-size: 2rem;
-            color: var(--gold-main);
-            margin-bottom: 10px;
-        }
+.result-name{
+  font-size:clamp(13px,2.8vw,22px);
+  margin-top:7px;
+  letter-spacing:.06em;
+}
 
-        /* 神諭卡訊息頁 左右佈局 */
-        .oracle-result-wrap {
-            display: flex;
-            gap: 20px;
-            align-items: flex-start;
-            margin-top: 20px;
-        }
+.result-actions{
+  position:absolute;
+  left:14%;
+  right:14%;
+  top:84%;
+  display:flex;
+  gap:28px;
+  justify-content:center;
+}
 
-        .oracle-card-view {
-            width: 110px;
-            height: 175px;
-            border: 1.5px solid var(--gold-main);
-            border-radius: 12px;
-            overflow: hidden;
-            flex-shrink: 0;
-            box-shadow: 0 0 14px var(--gold-shadow);
-        }
+.action-btn{
+  flex:1;
+  border:1px solid rgba(245,211,122,.86);
+  border-radius:999px;
+  padding:14px 10px;
+  font-size:clamp(14px,3.2vw,24px);
+  color:#1b1205;
+  background:linear-gradient(180deg,#fff0bd,#D4AF37,#9B6A22);
+  cursor:pointer;
+}
 
-        .oracle-card-view img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+.action-btn.dark{
+  color:#F5D37A;
+  background:rgba(2,8,20,.78);
+}
 
-        .oracle-text-area {
-            flex: 1;
-        }
+/* 神諭卡答案 */
+.oracle-answer-card{
+  position:absolute;
+  left:10%;
+  top:25%;
+  width:36%;
+  height:48%;
+  border:2px solid rgba(212,175,55,.86);
+  border-radius:18px;
+  background:
+    radial-gradient(circle at 50% 42%,rgba(245,211,122,.32),transparent 20%),
+    linear-gradient(180deg,rgba(10,18,39,.7),rgba(5,9,20,.85));
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  color:#F5D37A;
+  box-shadow:0 0 28px rgba(212,175,55,.26);
+}
 
-        .oracle-text-area h4 {
-            font-family: "Cinzel", serif;
-            color: var(--gold-main);
-            margin-bottom: 12px;
-            font-size: 1.1rem;
-        }
+.oracle-answer-card .en{
+  font-size:clamp(18px,3vw,34px);
+  margin-bottom:8px;
+  text-align:center;
+}
 
-        .oracle-text-area p {
-            line-height: 1.8;
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
+.oracle-answer-card .cn{
+  font-size:clamp(26px,5vw,48px);
+  text-align:center;
+}
 
-        /* 頁面模組切換 */
-        .page {
-            display: none;
-        }
-        .page.active {
-            display: block;
-        }
+.oracle-answer-card .icon{
+  font-size:clamp(70px,12vw,120px);
+  margin-top:28px;
+}
 
-        /* 底部導航列 */
-        .nav-footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 72px;
-            background: rgba(11, 16, 32, 0.92);
-            border-top: 1px solid var(--gold-border);
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            z-index: 999;
-            backdrop-filter: blur(12px);
-        }
+.oracle-answer-text{
+  position:absolute;
+  left:57%;
+  right:8%;
+  top:31%;
+  color:#F8F6E2;
+  text-align:left;
+  font-size:clamp(14px,3vw,28px);
+  line-height:2.05;
+  letter-spacing:.06em;
+}
 
-        .nav-item {
-            color: var(--text-base);
-            opacity: 0.65;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.75rem;
-        }
+.oracle-answer-title{
+  color:#F5D37A;
+  font-size:clamp(24px,5vw,44px);
+  letter-spacing:.18em;
+  margin-bottom:22px;
+}
 
-        .nav-item.active {
-            color: var(--gold-main);
-            opacity: 1;
-        }
+/* 紀錄、收藏、設定 */
+.simple-page .screen{
+  background-image:url("神諭卡選擇.png");
+}
 
-        .nav-icon {
-            font-size: 1.4rem;
-            display: block;
-            margin-bottom: 4px;
-        }
+.simple-panel{
+  position:absolute;
+  left:9%;
+  right:9%;
+  top:19%;
+  bottom:16%;
+  border:1px solid rgba(212,175,55,.74);
+  border-radius:18px;
+  background:rgba(3,8,19,.68);
+  color:#F8F6E2;
+  padding:36px 26px;
+  overflow:auto;
+}
 
-        /* 記錄/收藏樣式 */
-        .record-item {
-            padding: 14px 0;
-            border-bottom: 1px solid var(--gold-border);
-            font-size: 0.85rem;
-        }
+.simple-panel h1{
+  color:#F5D37A;
+  text-align:center;
+  font-size:clamp(34px,7vw,58px);
+  letter-spacing:.18em;
+  margin:0 0 26px;
+}
 
-        .record-time {
-            opacity: 0.7;
-            font-size: 0.72rem;
-            margin-top: 4px;
-        }
+.record-item{
+  border:1px solid rgba(212,175,55,.45);
+  border-radius:14px;
+  padding:18px;
+  margin-bottom:14px;
+  line-height:1.8;
+  background:rgba(6,13,28,.72);
+}
 
-        /* 響應式適配 */
-        @media (max-width: 400px) {
-            .hero-banner h1 {
-                font-size: 2.2rem;
-            }
-            .oracle-result-wrap {
-                flex-direction: column;
-                align-items: center;
-            }
-            .oracle-card-view {
-                margin-bottom: 16px;
-            }
-        }
-    </style>
+.clear-btn{
+  display:block;
+  margin:0 auto 20px;
+  border:1px solid rgba(245,211,122,.8);
+  border-radius:999px;
+  padding:10px 24px;
+  color:#F5D37A;
+  background:rgba(2,8,20,.75);
+  cursor:pointer;
+}
+
+@media(max-width:600px){
+  .screen{width:100vw}
+  .deck-card{width:42px;height:68px}
+  .result-overlay{left:7%;right:7%;gap:18px 12px}
+  .result-actions{left:8%;right:8%;gap:10px}
+}
+</style>
 </head>
+
 <body>
-    <!-- 背景層 -->
-    <div class="star-field"></div>
-    <div class="nebula"></div>
 
-    <div class="container">
-        <!-- 1. 首頁頁面 -->
-        <div class="page active" id="page-home">
-            <div class="hero-banner">
-                <h1>SOUL NEST</h1>
-                <p>Where Your Soul Finds Answers</p>
-                <button class="btn-mystic" id="goShuffle">開始抽牌</button>
-            </div>
+<section class="page active" id="home">
+  <div class="screen">
+    <button class="hotspot home-start" onclick="goPage('spread')">
+      <span class="hidden-label">開始抽牌</span>
+    </button>
+    <button class="hotspot home-nav-tarot" onclick="goPage('spread')"></button>
+    <button class="hotspot home-nav-oracle" onclick="goPage('oracle')"></button>
+    <button class="hotspot home-nav-history" onclick="goPage('history')"></button>
+    <button class="hotspot home-nav-setting" onclick="goPage('settings')"></button>
+  </div>
+</section>
 
-            <!-- 牌陣選擇 -->
-            <div class="mystic-card">
-                <h3 class="title-main">選擇牌陣</h3>
-                <div class="desc-text">依照你的問題挑選對應牌陣</div>
-                <div class="spread-grid">
-                    <div class="spread-item" data-spread="三角">
-                        <div class="spread-icon">△</div>
-                        <div class="spread-name">聖三角牌陣</div>
-                        <div class="spread-desc">現況 · 問題 · 建議</div>
-                    </div>
-                    <div class="spread-item" data-spread="時間">
-                        <div class="spread-icon">⟷</div>
-                        <div class="spread-name">時間之流牌陣</div>
-                        <div class="spread-desc">過去 · 現在 · 未來</div>
-                    </div>
-                    <div class="spread-item" data-spread="決策">
-                        <div class="spread-icon">◎</div>
-                        <div class="spread-name">決策牌陣</div>
-                        <div class="spread-desc">雙向選擇 · 利弊指引</div>
-                    </div>
-                    <div class="spread-item" data-spread="身心靈">
-                        <div class="spread-icon">✧</div>
-                        <div class="spread-name">身心靈牌陣</div>
-                        <div class="spread-desc">身體 · 情緒 · 靈性</div>
-                    </div>
-                </div>
-            </div>
+<section class="page" id="spread">
+  <div class="screen">
+    <button class="hotspot spread-triangle" onclick="chooseSpread('triangle')"></button>
+    <button class="hotspot spread-time" onclick="chooseSpread('time')"></button>
+    <button class="hotspot spread-decision" onclick="chooseSpread('decision')"></button>
+    <button class="hotspot spread-spirit" onclick="chooseSpread('spirit')"></button>
 
-            <!-- 抽牌模式 -->
-            <div class="mystic-card">
-                <h3 class="title-main">抽牌模式</h3>
-                <div class="desc-text">選擇牌面呈現方式</div>
-                <div class="mode-wrap">
-                    <div class="mode-item" data-mode="正位">
-                        <div class="mode-icon">☾</div>
-                        <div>正位抽牌</div>
-                    </div>
-                    <div class="mode-item" data-mode="正逆位">
-                        <div class="mode-icon">☾☾</div>
-                        <div>正逆位抽牌</div>
-                    </div>
-                </div>
-            </div>
+    <button class="hotspot bottom-home" onclick="goHome()"></button>
+    <button class="hotspot bottom-history" onclick="goPage('history')"></button>
+    <button class="hotspot bottom-fav" onclick="goPage('favorites')"></button>
+    <button class="hotspot bottom-oracle" onclick="goPage('oracle')"></button>
+    <button class="hotspot bottom-setting" onclick="goPage('settings')"></button>
+  </div>
+</section>
 
-            <!-- 神諭卡選擇 -->
-            <div class="mystic-card">
-                <h3 class="title-main">神諭卡類型</h3>
-                <div class="desc-text">選擇對應領域靈性指引</div>
-                <div class="oracle-grid">
-                    <div class="oracle-item" data-oracle="靈魂">
-                        <div class="oracle-icon">☽</div>
-                        <div>靈魂訊息</div>
-                    </div>
-                    <div class="oracle-item" data-oracle="感情">
-                        <div class="oracle-icon">♥</div>
-                        <div>感情訊息</div>
-                    </div>
-                    <div class="oracle-item" data-oracle="宇宙">
-                        <div class="oracle-icon">✦</div>
-                        <div>宇宙訊息</div>
-                    </div>
-                    <div class="oracle-item" data-oracle="天使">
-                        <div class="oracle-icon">✧</div>
-                        <div>天使訊息</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<section class="page" id="mode">
+  <div class="screen">
+    <button class="hotspot mode-upright" onclick="chooseMode('upright')"></button>
+    <button class="hotspot mode-normal" onclick="chooseMode('normal')"></button>
 
-        <!-- 2. 洗牌動畫頁 -->
-        <div class="page" id="page-shuffle">
-            <div class="mystic-card shuffle-area">
-                <h3 class="title-main">靜心洗牌</h3>
-                <div class="desc-text">請在心中專注想著你的問題<br>讓靈性連結宇宙能量</div>
-                <div class="card-shuffle">
-                    <div class="shuffle-card spin-anim">☽</div>
-                </div>
-                <button class="btn-mystic" id="goDraw">開始抽牌</button>
-            </div>
-        </div>
+    <button class="hotspot bottom-home" onclick="goHome()"></button>
+    <button class="hotspot bottom-history" onclick="goPage('history')"></button>
+    <button class="hotspot bottom-fav" onclick="goPage('favorites')"></button>
+    <button class="hotspot bottom-oracle" onclick="goPage('oracle')"></button>
+    <button class="hotspot bottom-setting" onclick="goPage('settings')"></button>
+  </div>
+</section>
 
-        <!-- 3. 抽牌結果頁 -->
-        <div class="page" id="page-draw">
-            <div class="mystic-card draw-area">
-                <h3 class="title-main">翻開專屬牌面</h3>
-                <div class="desc-text">點擊卡牌，解讀當下能量</div>
-                <div class="card-row" id="cardRow"></div>
-                <div id="posLabelWrap"></div>
-                <div style="margin-top:24px;">
-                    <button class="btn-mystic btn-outline" id="goOracle">前往神諭指引</button>
-                </div>
-            </div>
-        </div>
+<section class="page" id="focus">
+  <div class="screen">
+    <button class="hotspot focus-start" onclick="goPage('shuffle')"></button>
+  </div>
+</section>
 
-        <!-- 4. 神諭卡訊息頁 -->
-        <div class="page" id="page-oracle">
-            <div class="mystic-card">
-                <h3 class="title-main">神諭訊息</h3>
-                <div class="oracle-result-wrap">
-                    <div class="oracle-card-view">
-                        <img id="oracleImg" src="" alt="神諭卡">
-                    </div>
-                    <div class="oracle-text-area">
-                        <h4 id="oracleTitle"></h4>
-                        <p id="oracleText"></p>
-                    </div>
-                </div>
-                <div style="text-align:center; margin-top:24px;">
-                    <button class="btn-mystic btn-outline" id="backHome">返回首頁</button>
-                </div>
-            </div>
-        </div>
+<section class="page" id="shuffle">
+  <div class="screen">
+    <button class="hotspot shuffle-next" onclick="goDraw()"></button>
+  </div>
+</section>
 
-        <!-- 5. 抽牌紀錄頁 -->
-        <div class="page" id="page-record">
-            <div class="mystic-card">
-                <h3 class="title-main">抽牌紀錄</h3>
-                <div class="desc-text">歷史占卜記錄</div>
-                <div id="recordList"></div>
-            </div>
-        </div>
+<section class="page" id="draw">
+  <div class="screen">
+    <div class="draw-title">選擇你的牌卡</div>
+    <div class="draw-count" id="drawCount"></div>
+    <div class="deck-area" id="deckArea"></div>
+  </div>
+</section>
 
-        <!-- 6. 我的收藏頁 -->
-        <div class="page" id="page-collect">
-            <div class="mystic-card">
-                <h3 class="title-main">我的收藏</h3>
-                <div class="desc-text">暫無收藏內容</div>
-            </div>
-        </div>
+<section class="page" id="result">
+  <div class="screen">
+    <div class="result-overlay" id="resultOverlay"></div>
 
-        <!-- 7. 神諭卡牌庫 -->
-        <div class="page" id="page-lib">
-            <div class="mystic-card">
-                <h3 class="title-main">神諭卡牌庫</h3>
-                <div class="desc-text">完整牌組與靈性資料</div>
-            </div>
-        </div>
+    <div class="result-actions">
+      <button class="action-btn dark" onclick="restartSame()">↻ 重新抽牌</button>
+      <button class="action-btn" onclick="saveRecord()">📷 截圖找我解牌</button>
+    </div>
+  </div>
+</section>
 
-        <!-- 8. 設定頁 -->
-        <div class="page" id="page-setting">
-            <div class="mystic-card">
-                <h3 class="title-main">系統設定</h3>
-                <div class="desc-text">記錄管理、樣式設定</div>
-                <button class="btn-mystic btn-outline" style="width:100%; margin-top:16px;" id="clearRecord">清空所有紀錄</button>
-            </div>
-        </div>
+<section class="page" id="oracle">
+  <div class="screen">
+    <button class="hotspot" style="left:5%;top:31%;width:22%;height:43%" onclick="drawOracle('soul')"></button>
+    <button class="hotspot" style="left:29%;top:31%;width:20%;height:43%" onclick="drawOracle('love')"></button>
+    <button class="hotspot" style="left:52%;top:31%;width:20%;height:43%" onclick="drawOracle('cosmic')"></button>
+    <button class="hotspot" style="left:75%;top:31%;width:20%;height:43%" onclick="drawOracle('angel')"></button>
+
+    <button class="hotspot bottom-home" onclick="goHome()"></button>
+    <button class="hotspot bottom-history" onclick="goPage('history')"></button>
+    <button class="hotspot bottom-fav" onclick="goPage('favorites')"></button>
+    <button class="hotspot bottom-oracle" onclick="goPage('oracle')"></button>
+    <button class="hotspot bottom-setting" onclick="goPage('settings')"></button>
+  </div>
+</section>
+
+<section class="page" id="oracleAnswer">
+  <div class="screen">
+    <div class="oracle-answer-card" id="oracleCardBox"></div>
+    <div class="oracle-answer-text" id="oracleTextBox"></div>
+
+    <button class="hotspot" style="left:10%;top:83%;width:36%;height:8%" onclick="saveRecord()">儲存紀錄</button>
+    <button class="hotspot" style="left:54%;top:83%;width:36%;height:8%" onclick="goPage('oracle')">回牌陣選擇</button>
+  </div>
+</section>
+
+<section class="page simple-page" id="history">
+  <div class="screen">
+    <div class="simple-panel">
+      <h1>抽牌紀錄</h1>
+      <button class="clear-btn" onclick="clearHistory()">清除紀錄</button>
+      <div id="historyList"></div>
     </div>
 
-    <!-- 底部導航 -->
-    <div class="nav-footer">
-        <div class="nav-item active" data-target="home">
-            <span class="nav-icon">⌂</span>
-            <span>首頁</span>
-        </div>
-        <div class="nav-item" data-target="record">
-            <span class="nav-icon">≡</span>
-            <span>抽牌紀錄</span>
-        </div>
-        <div class="nav-item" data-target="collect">
-            <span class="nav-icon">♥</span>
-            <span>我的收藏</span>
-        </div>
-        <div class="nav-item" data-target="lib">
-            <span class="nav-icon">☽</span>
-            <span>神諭卡牌</span>
-        </div>
-        <div class="nav-item" data-target="setting">
-            <span class="nav-icon">⚙</span>
-            <span>設定</span>
-        </div>
+    <button class="hotspot bottom-home" onclick="goHome()"></button>
+    <button class="hotspot bottom-fav" onclick="goPage('favorites')"></button>
+    <button class="hotspot bottom-oracle" onclick="goPage('oracle')"></button>
+  </div>
+</section>
+
+<section class="page simple-page" id="favorites">
+  <div class="screen">
+    <div class="simple-panel">
+      <h1>我的收藏</h1>
+      <button class="clear-btn" onclick="clearFavorites()">清除收藏</button>
+      <div id="favoriteList"></div>
     </div>
 
-    <script>
-        // ==================== 資料庫 ====================
-        // 偉特塔羅牌庫
-        const tarotDeck = [
-            { name: "愚人", img: "https://picsum.photos/id/1039/300/450" },
-            { name: "魔術師", img: "https://picsum.photos/id/1040/300/450" },
-            { name: "女祭司", img: "https://picsum.photos/id/1041/300/450" },
-            { name: "女皇", img: "https://picsum.photos/id/1042/300/450" },
-            { name: "皇帝", img: "https://picsum.photos/id/1043/300/450" },
-            { name: "戀人", img: "https://picsum.photos/id/1044/300/450" },
-            { name: "戰車", img: "https://picsum.photos/id/1045/300/450" },
-            { name: "力量", img: "https://picsum.photos/id/1046/300/450" }
-        ];
+    <button class="hotspot bottom-home" onclick="goHome()"></button>
+    <button class="hotspot bottom-history" onclick="goPage('history')"></button>
+    <button class="hotspot bottom-oracle" onclick="goPage('oracle')"></button>
+  </div>
+</section>
 
-        // 牌位對應文字
-        const posTextMap = {
-            "三角": ["現況", "問題", "建議"],
-            "時間": ["過去", "現在", "未來"],
-            "決策": ["選擇A", "選擇B", "綜合建議"],
-            "身心靈": ["身體", "情緒", "靈性"]
-        };
+<section class="page simple-page" id="settings">
+  <div class="screen">
+    <div class="simple-panel">
+      <h1>設定</h1>
+      <div class="record-item">抽牌模式固定只有：「正位抽牌」與「正逆位抽牌」，不顯示百分比。</div>
+      <div class="record-item">頁面視覺直接使用你上傳的參考圖作為底圖，讓整體更接近你要的畫面。</div>
+      <div class="record-item">塔羅結果使用 78 張偉特塔羅牌圖。若 Wikimedia 圖片載入失敗，會自動切換備用圖源。</div>
+    </div>
 
-        // 神諭卡資料
-        const oracleData = {
-            "靈魂": {
-                title: "靈魂訊息",
-                img: "https://picsum.photos/id/1062/300/450",
-                text: "傾聽內在深處的聲音，你的靈魂早已知道方向。不必追尋外界答案，靜心與自我對話，一切迷惘都將隨風散去。"
-            },
-            "感情": {
-                title: "感情訊息",
-                img: "https://picsum.photos/id/1059/300/450",
-                text: "關係需要溫柔經營，順從真心感受。無論相聚或分離，皆是靈魂的安排，學會接納與寬恕，愛會自然流動。"
-            },
-            "宇宙": {
-                title: "宇宙訊息",
-                img: "https://picsum.photos/id/1074/300/450",
-                text: "宇宙時序自有安排，不必急躁強求。專注當下，做好眼前每一件事，屬於你的機緣將在最合適的時刻降臨。"
-            },
-            "天使": {
-                title: "天使訊息",
-                img: "https://picsum.photos/id/1069/300/450",
-                text: "守護靈一直陪伴在你身旁，放下恐懼與不安。保持純淨的心，接受療癒與祝福，光明將環繞你前行。"
-            }
-        };
+    <button class="hotspot bottom-home" onclick="goHome()"></button>
+    <button class="hotspot bottom-history" onclick="goPage('history')"></button>
+    <button class="hotspot bottom-fav" onclick="goPage('favorites')"></button>
+    <button class="hotspot bottom-oracle" onclick="goPage('oracle')"></button>
+  </div>
+</section>
 
-        // ==================== 全域變數 ====================
-        let currSpread = "";
-        let currMode = "";
-        let currOracle = "";
-        let recordList = JSON.parse(localStorage.getItem("soulNestRecord")) || [];
+<script>
+const tarotCards = [
+  ["愚人","RWS_Tarot_00_Fool.jpg","ar00"],
+  ["魔術師","RWS_Tarot_01_Magician.jpg","ar01"],
+  ["女祭司","RWS_Tarot_02_High_Priestess.jpg","ar02"],
+  ["皇后","RWS_Tarot_03_Empress.jpg","ar03"],
+  ["皇帝","RWS_Tarot_04_Emperor.jpg","ar04"],
+  ["教皇","RWS_Tarot_05_Hierophant.jpg","ar05"],
+  ["戀人","RWS_Tarot_06_Lovers.jpg","ar06"],
+  ["戰車","RWS_Tarot_07_Chariot.jpg","ar07"],
+  ["力量","RWS_Tarot_08_Strength.jpg","ar08"],
+  ["隱者","RWS_Tarot_09_Hermit.jpg","ar09"],
+  ["命運之輪","RWS_Tarot_10_Wheel_of_Fortune.jpg","ar10"],
+  ["正義","RWS_Tarot_11_Justice.jpg","ar11"],
+  ["吊人","RWS_Tarot_12_Hanged_Man.jpg","ar12"],
+  ["死神","RWS_Tarot_13_Death.jpg","ar13"],
+  ["節制","RWS_Tarot_14_Temperance.jpg","ar14"],
+  ["惡魔","RWS_Tarot_15_Devil.jpg","ar15"],
+  ["塔","RWS_Tarot_16_Tower.jpg","ar16"],
+  ["星星","RWS_Tarot_17_Star.jpg","ar17"],
+  ["月亮","RWS_Tarot_18_Moon.jpg","ar18"],
+  ["太陽","RWS_Tarot_19_Sun.jpg","ar19"],
+  ["審判","RWS_Tarot_20_Judgement.jpg","ar20"],
+  ["世界","RWS_Tarot_21_World.jpg","ar21"],
 
-        // ==================== 頁面切換通用函式 ====================
-        const allPages = document.querySelectorAll(".page");
-        const navItems = document.querySelectorAll(".nav-item");
+  ["權杖一","Wands01.jpg","waac"],
+  ["權杖二","Wands02.jpg","wa02"],
+  ["權杖三","Wands03.jpg","wa03"],
+  ["權杖四","Wands04.jpg","wa04"],
+  ["權杖五","Wands05.jpg","wa05"],
+  ["權杖六","Wands06.jpg","wa06"],
+  ["權杖七","Wands07.jpg","wa07"],
+  ["權杖八","Wands08.jpg","wa08"],
+  ["權杖九","Wands09.jpg","wa09"],
+  ["權杖十","Wands10.jpg","wa10"],
+  ["權杖侍從","Wands11.jpg","wapa"],
+  ["權杖騎士","Wands12.jpg","wakn"],
+  ["權杖皇后","Wands13.jpg","waqu"],
+  ["權杖國王","Wands14.jpg","waki"],
 
-        function switchPage(pageId) {
-            allPages.forEach(p => p.classList.remove("active"));
-            document.getElementById(pageId).classList.add("active");
+  ["聖杯一","Cups01.jpg","cuac"],
+  ["聖杯二","Cups02.jpg","cu02"],
+  ["聖杯三","Cups03.jpg","cu03"],
+  ["聖杯四","Cups04.jpg","cu04"],
+  ["聖杯五","Cups05.jpg","cu05"],
+  ["聖杯六","Cups06.jpg","cu06"],
+  ["聖杯七","Cups07.jpg","cu07"],
+  ["聖杯八","Cups08.jpg","cu08"],
+  ["聖杯九","Cups09.jpg","cu09"],
+  ["聖杯十","Cups10.jpg","cu10"],
+  ["聖杯侍從","Cups11.jpg","cupa"],
+  ["聖杯騎士","Cups12.jpg","cukn"],
+  ["聖杯皇后","Cups13.jpg","cuqu"],
+  ["聖杯國王","Cups14.jpg","cuki"],
+
+  ["寶劍一","Swords01.jpg","swac"],
+  ["寶劍二","Swords02.jpg","sw02"],
+  ["寶劍三","Swords03.jpg","sw03"],
+  ["寶劍四","Swords04.jpg","sw04"],
+  ["寶劍五","Swords05.jpg","sw05"],
+  ["寶劍六","Swords06.jpg","sw06"],
+  ["寶劍七","Swords07.jpg","sw07"],
+  ["寶劍八","Swords08.jpg","sw08"],
+  ["寶劍九","Swords09.jpg","sw09"],
+  ["寶劍十","Swords10.jpg","sw10"],
+  ["寶劍侍從","Swords11.jpg","swpa"],
+  ["寶劍騎士","Swords12.jpg","swkn"],
+  ["寶劍皇后","Swords13.jpg","swqu"],
+  ["寶劍國王","Swords14.jpg","swki"],
+
+  ["錢幣一","Pents01.jpg","peac"],
+  ["錢幣二","Pents02.jpg","pe02"],
+  ["錢幣三","Pents03.jpg","pe03"],
+  ["錢幣四","Pents04.jpg","pe04"],
+  ["錢幣五","Pents05.jpg","pe05"],
+  ["錢幣六","Pents06.jpg","pe06"],
+  ["錢幣七","Pents07.jpg","pe07"],
+  ["錢幣八","Pents08.jpg","pe08"],
+  ["錢幣九","Pents09.jpg","pe09"],
+  ["錢幣十","Pents10.jpg","pe10"],
+  ["錢幣侍從","Pents11.jpg","pepa"],
+  ["錢幣騎士","Pents12.jpg","pekn"],
+  ["錢幣皇后","Pents13.jpg","pequ"],
+  ["錢幣國王","Pents14.jpg","peki"]
+].map(([name,commons,backup]) => ({name,commons,backup}));
+
+const spreads = {
+  triangle:{
+    name:"聖三角牌陣",
+    count:6,
+    positions:[
+      ["現況",""],
+      ["問題",""],
+      ["建議",""],
+      ["身","外在的行為"],
+      ["心","心理的想法"],
+      ["靈","淺意識的感受"]
+    ]
+  },
+  time:{
+    name:"時間之流牌陣",
+    count:3,
+    positions:[
+      ["過去",""],
+      ["現在",""],
+      ["未來",""]
+    ]
+  },
+  decision:{
+    name:"決策牌陣",
+    count:6,
+    positions:[
+      ["A方向",""],
+      ["A補充",""],
+      ["中間","共同能量"],
+      ["B補充",""],
+      ["B方向",""],
+      ["淺意識",""]
+    ]
+  },
+  spirit:{
+    name:"身心靈牌陣",
+    count:3,
+    positions:[
+      ["身","外在的行為"],
+      ["心","心理的想法"],
+      ["靈","淺意識的感受"]
+    ]
+  }
+};
+
+const modeText = {
+  upright:"正位抽牌",
+  normal:"正逆位抽牌"
+};
+
+const oracleCards = [
+  {
+    type:"soul",
+    icon:"☾",
+    en:"Trust the Timing",
+    cn:"信任過程",
+    text:"有些事情不是沒有發生，\n而是在最適合的時間靠近你。\n\n請相信，\n你沒有錯過任何屬於你的東西。\n\n宇宙正為你鋪路，\n你只需要穩住心，繼續往前。"
+  },
+  {
+    type:"love",
+    icon:"♡",
+    en:"Speak Your Heart",
+    cn:"真誠表達",
+    text:"被理解的開始，\n是願意說出自己的感受。\n\n不要壓抑，也不要逞強，\n溫柔而清楚地說出你的心。"
+  },
+  {
+    type:"cosmic",
+    icon:"✧",
+    en:"Go With the Flow",
+    cn:"順流而行",
+    text:"當你停止對抗，\n事情會開始自然流動。\n\n你不需要急著掌控所有答案，\n先相信當下的安排。"
+  },
+  {
+    type:"angel",
+    icon:"♁",
+    en:"Blessings",
+    cn:"祝福",
+    text:"此刻的你已經足夠好了。\n\n願祝福在最適合的時間來到你身邊，\n也願你相信自己值得被愛與守護。"
+  }
+];
+
+let stack = ["home"];
+let currentSpread = null;
+let currentMode = "normal";
+let selected = [];
+let deck = [];
+let results = [];
+let currentOracle = null;
+
+function show(id){
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  window.scrollTo(0,0);
+}
+
+function goPage(id){
+  show(id);
+  if(stack[stack.length - 1] !== id){
+    stack.push(id);
+  }
+  if(id === "history") renderHistory();
+  if(id === "favorites") renderFavorites();
+}
+
+function goHome(){
+  stack = ["home"];
+  show("home");
+}
+
+function chooseSpread(id){
+  currentSpread = spreads[id];
+  selected = [];
+  results = [];
+  goPage("mode");
+}
+
+function chooseMode(mode){
+  currentMode = mode;
+  goPage("focus");
+}
+
+function commonsUrl(file){
+  return "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(file);
+}
+
+function backupUrl(code){
+  return "https://www.sacred-texts.com/tarot/pkt/img/" + code + ".jpg";
+}
+
+function imgErr(img,backup){
+  if(!img.dataset.backup){
+    img.dataset.backup = "1";
+    img.src = backupUrl(backup);
+  }
+}
+
+function goDraw(){
+  deck = [...tarotCards];
+  selected = [];
+  results = [];
+
+  const area = document.getElementById("deckArea");
+  area.innerHTML = "";
+  updateCount();
+
+  deck.forEach((card,i) => {
+    const b = document.createElement("button");
+    b.className = "deck-card";
+    b.onclick = () => pick(i,b);
+    area.appendChild(b);
+  });
+
+  goPage("draw");
+}
+
+function updateCount(){
+  document.getElementById("drawCount").innerText = currentSpread
+    ? `請依序抽出 ${currentSpread.count} 張牌｜已選擇 ${selected.length} / ${currentSpread.count}`
+    : "";
+}
+
+function pick(i,el){
+  if(selected.includes(i) || selected.length >= currentSpread.count) return;
+
+  selected.push(i);
+  el.classList.add("selected");
+  updateCount();
+
+  if(selected.length === currentSpread.count){
+    document.querySelectorAll(".deck-card").forEach(c => c.classList.add("disabled"));
+    setTimeout(() => {
+      makeResults();
+      renderResults();
+      goPage("result");
+    },400);
+  }
+}
+
+function orientation(){
+  return currentMode === "upright"
+    ? "正位"
+    : (Math.random() < .5 ? "正位" : "逆位");
+}
+
+function pull(){
+  const i = Math.floor(Math.random() * deck.length);
+  return deck.splice(i,1)[0];
+}
+
+function makeResults(){
+  deck = [...tarotCards];
+
+  results = currentSpread.positions.map(pos => ({
+    position:pos[0],
+    sub:pos[1],
+    card:pull(),
+    orientation:orientation()
+  }));
+}
+
+function renderResults(){
+  const box = document.getElementById("resultOverlay");
+
+  box.innerHTML = results.map(r => `
+    <div class="result-card">
+      <div class="result-pos">${r.position}</div>
+      ${r.sub ? `<div class="result-sub">${r.sub}</div>` : ""}
+      <img
+        src="${commonsUrl(r.card.commons)}"
+        onerror="imgErr(this,'${r.card.backup}')"
+        class="${r.orientation === "逆位" ? "reversed" : ""}"
+      >
+      <div class="result-name">${r.card.name}・${r.orientation}</div>
+    </div>
+  `).join("");
+}
+
+function restartSame(){
+  if(currentSpread) goPage("shuffle");
+}
+
+function drawOracle(type){
+  const pool = oracleCards.filter(o => o.type === type);
+  currentOracle = pool[Math.floor(Math.random() * pool.length)];
+
+  document.getElementById("oracleCardBox").innerHTML = `
+    <div class="en">${currentOracle.en}</div>
+    <div class="cn">${currentOracle.cn}</div>
+    <div class="icon">${currentOracle.icon}</div>
+  `;
+
+  document.getElementById("oracleTextBox").innerHTML = `
+    <div class="oracle-answer-title">神諭訊息</div>
+    ${currentOracle.text.replace(/\n/g,"<br>")}
+  `;
+
+  goPage("oracleAnswer");
+}
+
+function payload(){
+  return {
+    date:new Date().toLocaleString("zh-TW"),
+    spread:currentSpread?.name || "",
+    mode:modeText[currentMode] || "",
+    cards:results.map(r => ({
+      position:r.position,
+      sub:r.sub,
+      name:r.card.name,
+      orientation:r.orientation
+    })),
+    oracle:currentOracle
+      ? {
+          cn:currentOracle.cn,
+          text:currentOracle.text
         }
+      : null
+  };
+}
 
-        // 底部導航切換
-        navItems.forEach(item => {
-            item.addEventListener("click", () => {
-                const target = item.dataset.target;
-                navItems.forEach(n => n.classList.remove("active"));
-                item.classList.add("active");
-                switchPage(`page-${target}`);
-                if(target === "record") renderRecord();
-            });
-        });
+function saveRecord(){
+  const old = JSON.parse(localStorage.getItem("soulNestRecords") || "[]");
+  old.unshift(payload());
+  localStorage.setItem("soulNestRecords",JSON.stringify(old.slice(0,50)));
+  alert("已儲存紀錄");
+}
 
-        // ==================== 選取項目 高亮 ====================
-        // 牌陣
-        document.querySelectorAll(".spread-item").forEach(el => {
-            el.addEventListener("click", () => {
-                document.querySelectorAll(".spread-item").forEach(e => e.classList.remove("active"));
-                el.classList.add("active");
-                currSpread = el.dataset.spread;
-            });
-        });
-        // 抽牌模式
-        document.querySelectorAll(".mode-item").forEach(el => {
-            el.addEventListener("click", () => {
-                document.querySelectorAll(".mode-item").forEach(e => e.classList.remove("active"));
-                el.classList.add("active");
-                currMode = el.dataset.mode;
-            });
-        });
-        // 神諭卡
-        document.querySelectorAll(".oracle-item").forEach(el => {
-            el.addEventListener("click", () => {
-                document.querySelectorAll(".oracle-item").forEach(e => e.classList.remove("active"));
-                el.classList.add("active");
-                currOracle = el.dataset.oracle;
-            });
-        });
+function saveFavorite(){
+  const old = JSON.parse(localStorage.getItem("soulNestFavorites") || "[]");
+  old.unshift(payload());
+  localStorage.setItem("soulNestFavorites",JSON.stringify(old.slice(0,50)));
+  alert("已加入收藏");
+}
 
-        // ==================== 按鈕跳轉邏輯 ====================
-        // 首頁 → 洗牌頁
-        document.getElementById("goShuffle").addEventListener("click", () => {
-            if(!currSpread || !currMode || !currOracle){
-                alert("請先完成 牌陣、抽牌模式、神諭卡 選擇！");
-                return;
-            }
-            switchPage("page-shuffle");
-        });
+function renderList(key,id,empty){
+  const data = JSON.parse(localStorage.getItem(key) || "[]");
+  const box = document.getElementById(id);
 
-        // 洗牌頁 → 抽牌頁
-        document.getElementById("goDraw").addEventListener("click", () => {
-            switchPage("page-draw");
-            generateCards();
-        });
+  if(!data.length){
+    box.innerHTML = `<div class="record-item">${empty}</div>`;
+    return;
+  }
 
-        // 抽牌頁 → 神諭頁
-        document.getElementById("goOracle").addEventListener("click", () => {
-            const data = oracleData[currOracle];
-            document.getElementById("oracleImg").src = data.img;
-            document.getElementById("oracleTitle").innerText = data.title;
-            document.getElementById("oracleText").innerText = data.text;
-            switchPage("page-oracle");
-        });
+  box.innerHTML = data.map(r => `
+    <div class="record-item">
+      <b style="color:#F5D37A">${r.date}</b><br>
+      ${r.spread}｜${r.mode}<br>
+      ${(r.cards || []).map(c =>
+        `${c.position}${c.sub ? `（${c.sub}）` : ""}：${c.name}・${c.orientation}`
+      ).join("<br>")}
+      ${r.oracle ? `<br><br>神諭卡：${r.oracle.cn}` : ""}
+    </div>
+  `).join("");
+}
 
-        // 神諭頁 → 首頁
-        document.getElementById("backHome").addEventListener("click", () => {
-            switchPage("page-home");
-        });
+function renderHistory(){
+  renderList("soulNestRecords","historyList","目前還沒有抽牌紀錄。");
+}
 
-        // 清空紀錄
-        document.getElementById("clearRecord").addEventListener("click", () => {
-            if(confirm("確定清空所有占卜紀錄？此操作無法復原！")){
-                recordList = [];
-                localStorage.removeItem("soulNestRecord");
-                renderRecord();
-                alert("紀錄已清空");
-            }
-        });
+function renderFavorites(){
+  renderList("soulNestFavorites","favoriteList","目前還沒有收藏內容。");
+}
 
-        // ==================== 生成塔羅卡牌 + 翻牌邏輯 ====================
-        const cardRow = document.getElementById("cardRow");
-        const posLabelWrap = document.getElementById("posLabelWrap");
+function clearHistory(){
+  if(confirm("確定清除紀錄嗎？")){
+    localStorage.removeItem("soulNestRecords");
+    renderHistory();
+  }
+}
 
-        function generateCards() {
-            cardRow.innerHTML = "";
-            posLabelWrap.innerHTML = "";
-            const posArr = posTextMap[currSpread];
+function clearFavorites(){
+  if(confirm("確定清除收藏嗎？")){
+    localStorage.removeItem("soulNestFavorites");
+    renderFavorites();
+  }
+}
+</script>
 
-            // 生成卡牌 + 對應位置標籤
-            posArr.forEach((pos, idx) => {
-                // 隨機取牌
-                const randCard = tarotDeck[Math.floor(Math.random() * tarotDeck.length)];
-                let isReverse = currMode === "正逆位" ? Math.random() > 0.5 : false;
-
-                // 卡牌DOM
-                const card = document.createElement("div");
-                card.className = "tarot-flip-card";
-                card.innerHTML = `
-                    <div class="flip-inner">
-                        <div class="flip-back">☽</div>
-                        <div class="flip-front">
-                            <img src="${randCard.img}" alt="${randCard.name}">
-                        </div>
-                    </div>
-                `;
-                cardRow.appendChild(card);
-
-                // 位置標籤
-                const label = document.createElement("span");
-                label.className = "position-label";
-                label.innerText = pos + (isReverse ? " (逆位)" : " (正位)");
-                posLabelWrap.appendChild(label);
-
-                // 翻牌事件
-                card.addEventListener("click", function(){
-                    if(this.classList.contains("flipped")) return;
-                    this.classList.add("flipped");
-                    saveSingleRecord(pos, randCard.name, isReverse);
-                });
-            });
-        }
-
-        // ==================== 本地記錄儲存與渲染 ====================
-        function saveSingleRecord(pos, cardName, isRev) {
-            const now = new Date().toLocaleString();
-            recordList.unshift({
-                spread: currSpread,
-                mode: currMode,
-                oracle: currOracle,
-                position: pos,
-                card: cardName,
-                reverse: isRev ? "逆位" : "正位",
-                time: now
-            });
-            localStorage.setItem("soulNestRecord", JSON.stringify(recordList));
-        }
-
-        function renderRecord() {
-            const listDom = document.getElementById("recordList");
-            if(recordList.length === 0){
-                listDom.innerHTML = '<div class="desc-text">暫無占卜記錄</div>';
-                return;
-            }
-            listDom.innerHTML = "";
-            recordList.forEach(item => {
-                const div = document.createElement("div");
-                div.className = "record-item";
-                div.innerHTML = `
-                    <div>牌陣：${item.spread}｜模式：${item.mode}｜神諭：${item.oracle}</div>
-                    <div>位置：${item.position}｜牌面：${item.card} (${item.reverse})</div>
-                    <div class="record-time">${item.time}</div>
-                `;
-                listDom.appendChild(div);
-            });
-        }
-    </script>
 </body>
 </html>
