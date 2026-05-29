@@ -26,8 +26,8 @@ body:before{
   position:fixed;
   inset:0;
   background:
-    radial-gradient(circle at 50% 15%,rgba(212,175,55,.22),transparent 24%),
-    radial-gradient(circle at 75% 85%,rgba(110,91,154,.22),transparent 34%),
+    radial-gradient(circle at 50% 18%,rgba(212,175,55,.23),transparent 23%),
+    radial-gradient(circle at 78% 85%,rgba(110,91,154,.24),transparent 34%),
     linear-gradient(to bottom,#050816,#0B1020 55%,#040713);
   z-index:-4;
 }
@@ -42,25 +42,25 @@ body:before{
     radial-gradient(#fff 1px,transparent 1.4px),
     radial-gradient(var(--gold) 1px,transparent 1.2px);
   background-size:90px 90px,150px 150px;
-  opacity:.34;
-  animation:starMove 22s linear infinite;
+  opacity:.35;
+  animation:starMove 24s linear infinite;
   z-index:-3;
 }
 .stars:before{
   background:radial-gradient(circle at 50% 90%,rgba(212,175,55,.25),transparent 28%);
-  opacity:.8;
 }
 .stars:after{
   background:
     linear-gradient(90deg,transparent,rgba(212,175,55,.25),transparent),
     radial-gradient(circle at 50% 55%,transparent 0 34%,rgba(212,175,55,.13) 34.2% 34.6%,transparent 35%);
-  opacity:.38;
+  opacity:.42;
 }
 @keyframes starMove{to{transform:translateY(-90px)}}
+
 .page{
   display:none;
   min-height:100vh;
-  padding:24px 18px 42px;
+  padding:22px 18px 44px;
   max-width:1180px;
   margin:auto;
 }
@@ -72,15 +72,17 @@ body:before{
   color:var(--gold);
   letter-spacing:4px;
   font-size:13px;
-  min-height:36px;
+  min-height:40px;
+  gap:10px;
 }
-.brand-small{display:flex;align-items:center;gap:10px}
+.top-left,.top-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.brand-small{white-space:nowrap}
 button{
   border:none;
   cursor:pointer;
   border-radius:999px;
-  padding:14px 26px;
-  font-size:16px;
+  padding:13px 22px;
+  font-size:15px;
   font-family:inherit;
   transition:.25s;
 }
@@ -97,6 +99,8 @@ button{
   border:1px solid rgba(212,175,55,.28);
 }
 .btn-sub:hover{background:rgba(212,175,55,.12)}
+.btn-mini{font-size:13px;padding:9px 14px}
+
 .hero,.center{
   min-height:82vh;
   display:flex;
@@ -140,6 +144,7 @@ h2{font-size:34px;letter-spacing:3px;color:#fff5cf;margin:12px 0}
   position:relative;
 }
 .divider:after{content:"✦";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:var(--gold);background:var(--bg);padding:0 12px}
+
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
@@ -147,7 +152,7 @@ h2{font-size:34px;letter-spacing:3px;color:#fff5cf;margin:12px 0}
   width:100%;
   margin-top:38px;
 }
-.panel,.mode-card,.history-card{
+.panel,.mode-card,.history-card,.teacher-box{
   background:linear-gradient(180deg,rgba(17,24,58,.78),rgba(5,8,22,.78));
   border:1px solid rgba(212,175,55,.38);
   border-radius:26px;
@@ -157,7 +162,7 @@ h2{font-size:34px;letter-spacing:3px;color:#fff5cf;margin:12px 0}
   overflow:hidden;
   box-shadow:0 18px 45px rgba(0,0,0,.35);
 }
-.panel:before,.mode-card:before,.history-card:before{
+.panel:before,.mode-card:before,.history-card:before,.teacher-box:before{
   content:"";
   position:absolute;inset:9px;
   border:1px solid rgba(212,175,55,.16);
@@ -175,7 +180,7 @@ h2{font-size:34px;letter-spacing:3px;color:#fff5cf;margin:12px 0}
 }
 .panel h3,.mode-card h3{font-size:24px;margin:8px 0;color:#fff5cf}
 .panel p,.mode-card p,.history-card p{color:rgba(248,246,242,.68);line-height:1.7}
-.choice-row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:26px}
+
 .shuffle-box{
   position:relative;width:270px;height:270px;margin-bottom:32px;
 }
@@ -195,13 +200,21 @@ h2{font-size:34px;letter-spacing:3px;color:#fff5cf;margin:12px 0}
   0%{transform:rotate(0deg) translateX(62px) rotate(0deg)}
   100%{transform:rotate(360deg) translateX(62px) rotate(-360deg)}
 }
+
+.deck-wrap{
+  width:100%;
+  max-width:980px;
+  margin-top:30px;
+  overflow-x:auto;
+  padding:20px 0;
+}
 .deck{
-  display:flex;
-  flex-wrap:wrap;
-  gap:14px;
+  display:grid;
+  grid-template-columns:repeat(13,76px);
+  gap:12px;
   justify-content:center;
-  margin-top:34px;
-  perspective:800px;
+  min-width:1060px;
+  perspective:900px;
 }
 .card-back,.result-card,.oracle-card-ui{
   border-radius:18px;
@@ -215,17 +228,19 @@ h2{font-size:34px;letter-spacing:3px;color:#fff5cf;margin:12px 0}
   overflow:hidden;
 }
 .card-back{
-  width:96px;height:150px;
+  width:76px;height:118px;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   transition:.25s;
 }
 .card-back:before,.result-card:before,.oracle-card-ui:before{
   content:"";position:absolute;inset:7px;border:1px solid rgba(212,175,55,.20);border-radius:13px;pointer-events:none;
 }
-.card-back:hover{transform:translateY(-9px) scale(1.02);box-shadow:0 0 36px rgba(212,175,55,.42)}
-.card-back.selected{background:rgba(212,175,55,.18);transform:translateY(-9px) scale(1.04)}
-.card-back .brand{font-size:10px;letter-spacing:3px;line-height:1.5;margin-top:8px}
-.card-back .sigil{font-size:42px}
+.card-back:hover{transform:translateY(-9px) scale(1.03);box-shadow:0 0 36px rgba(212,175,55,.42)}
+.card-back.selected{background:rgba(212,175,55,.20);transform:translateY(-9px) scale(1.05)}
+.card-back.disabled{opacity:.32;pointer-events:none}
+.card-back .brand{font-size:8px;letter-spacing:2px;line-height:1.45;margin-top:6px}
+.card-back .sigil{font-size:30px}
+
 .result-layout{
   margin-top:36px;
   display:grid;
@@ -250,6 +265,17 @@ h2{font-size:34px;letter-spacing:3px;color:#fff5cf;margin:12px 0}
 .position{color:#f8e7a1;font-size:14px;margin-bottom:12px}
 .card-name{font-size:22px;color:#fff;margin:12px 0}
 .orientation{color:rgba(248,246,242,.72)}
+
+.decision-note{
+  margin-top:18px;
+  max-width:640px;
+  padding:18px 22px;
+  border:1px solid rgba(212,175,55,.35);
+  border-radius:22px;
+  background:rgba(212,175,55,.08);
+  color:#fff5cf;
+  line-height:1.8;
+}
 .oracle-section{margin-top:46px;text-align:center;width:100%}
 .oracle-options{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:20px 0}
 .oracle-card-ui{
@@ -263,9 +289,9 @@ h2{font-size:34px;letter-spacing:3px;color:#fff5cf;margin:12px 0}
 .oracle-card-ui .en{font-style:italic;font-size:18px;color:#fff;margin-bottom:18px}
 .oracle-card-ui p{line-height:1.9;color:rgba(248,246,242,.78)}
 .actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:34px}
-.mode-note{
+.mode-note,.badge{
   margin-top:12px;
-  padding:10px 14px;
+  padding:8px 13px;
   border:1px solid rgba(212,175,55,.24);
   border-radius:999px;
   color:#f8e7a1;
@@ -276,17 +302,20 @@ input[type=range]{width:260px;accent-color:var(--gold)}
 .history-list{display:grid;gap:14px;width:100%;margin-top:30px}
 .history-card{text-align:left}
 .history-card strong{color:#f8e7a1}
-.badge{
-  display:inline-block;padding:5px 10px;border-radius:999px;
-  background:rgba(212,175,55,.12);border:1px solid rgba(212,175,55,.28);
-  color:#f8e7a1;font-size:12px;margin:3px;
-}
+.badge{font-size:12px;margin:3px}
+.teacher-mode-on{box-shadow:0 0 0 2px rgba(212,175,55,.45) inset}
+
 @media(max-width:640px){
-  .page{padding:20px 14px 36px}
-  h1{font-size:40px;letter-spacing:6px}
+  .page{padding:18px 12px 36px}
+  .top{font-size:11px;letter-spacing:2px}
+  h1{font-size:39px;letter-spacing:6px}
   h2{font-size:28px}
   .main-text{font-size:21px}
-  .layout-triangle,.layout-time,.layout-decision{grid-template-columns:repeat(2,158px)}
+  .deck{grid-template-columns:repeat(13,58px);gap:9px;min-width:850px}
+  .card-back{width:58px;height:92px;border-radius:14px}
+  .card-back .sigil{font-size:24px}
+  .card-back .brand{font-size:7px;letter-spacing:1.5px}
+  .layout-triangle,.layout-time,.layout-decision{grid-template-columns:repeat(2,150px)}
   .layout-universal{grid-template-columns:1fr}
   .layout-universal .core{grid-column:auto}
   .result-card{width:150px}
@@ -298,8 +327,8 @@ input[type=range]{width:260px;accent-color:var(--gold)}
 
 <section id="home" class="page active">
   <div class="top">
-    <div class="brand-small">☾ SOUL NEST ✦</div>
-    <button class="btn-sub" onclick="showHistory()">抽牌紀錄</button>
+    <div class="top-left"><div class="brand-small">☾ SOUL NEST ✦</div></div>
+    <div class="top-right"><button class="btn-sub btn-mini" onclick="showHistory()">抽牌紀錄</button></div>
   </div>
   <div class="hero">
     <div class="logo-moon">☾</div>
@@ -315,8 +344,11 @@ input[type=range]{width:260px;accent-color:var(--gold)}
 
 <section id="select" class="page">
   <div class="top">
-    <div class="brand-small">☾ SOUL NEST ✦</div>
-    <button class="btn-sub" onclick="goPage('home')">回首頁</button>
+    <div class="top-left"><div class="brand-small">☾ SOUL NEST ✦</div></div>
+    <div class="top-right">
+      <button class="btn-sub btn-mini" onclick="goBack()">← 上一步</button>
+      <button class="btn-sub btn-mini" onclick="goPage('home')">首頁</button>
+    </div>
   </div>
   <div class="center">
     <h2>選擇牌陣</h2>
@@ -338,13 +370,13 @@ input[type=range]{width:260px;accent-color:var(--gold)}
       <div class="panel">
         <div class="icon">☸</div>
         <h3>決策牌陣</h3>
-        <p>命運之輪指引方向<br>A / B 選擇</p>
+        <p>命運之輪指引方向<br>A / B 選擇＋淺意識</p>
         <button class="btn-main" onclick="chooseSpread('decision')">6 張牌</button>
       </div>
       <div class="panel">
         <div class="icon">✦</div>
         <h3>萬用牌陣</h3>
-        <p>核心主因 70%<br>輔助訊息 30%</p>
+        <p>核心主因 70%<br>外在影響 15%・潛意識 15%</p>
         <button class="btn-main" onclick="chooseSpread('universal')">3 張牌</button>
       </div>
     </div>
@@ -353,8 +385,11 @@ input[type=range]{width:260px;accent-color:var(--gold)}
 
 <section id="mode" class="page">
   <div class="top">
-    <div class="brand-small">☾ SOUL NEST ✦</div>
-    <button class="btn-sub" onclick="goPage('select')">重選牌陣</button>
+    <div class="top-left"><div class="brand-small">☾ SOUL NEST ✦</div></div>
+    <div class="top-right">
+      <button class="btn-sub btn-mini" onclick="goBack()">← 上一步</button>
+      <button class="btn-sub btn-mini" onclick="goPage('home')">首頁</button>
+    </div>
   </div>
   <div class="center">
     <h2>選擇抽牌模式</h2>
@@ -389,8 +424,11 @@ input[type=range]{width:260px;accent-color:var(--gold)}
 
 <section id="shuffle" class="page">
   <div class="top">
-    <div class="brand-small">☾ SOUL NEST ✦</div>
-    <button class="btn-sub" onclick="goPage('mode')">重選模式</button>
+    <div class="top-left"><div class="brand-small">☾ SOUL NEST ✦</div></div>
+    <div class="top-right">
+      <button class="btn-sub btn-mini" onclick="goBack()">← 上一步</button>
+      <button class="btn-sub btn-mini" onclick="goPage('home')">首頁</button>
+    </div>
   </div>
   <div class="center">
     <div class="shuffle-box">
@@ -407,21 +445,29 @@ input[type=range]{width:260px;accent-color:var(--gold)}
 
 <section id="draw" class="page">
   <div class="top">
-    <div class="brand-small">☾ SOUL NEST ✦</div>
-    <button class="btn-sub" onclick="goPage('select')">重選牌陣</button>
+    <div class="top-left"><div class="brand-small">☾ SOUL NEST ✦</div></div>
+    <div class="top-right">
+      <button class="btn-sub btn-mini" onclick="goBack()">← 上一步</button>
+      <button class="btn-sub btn-mini" onclick="goPage('home')">首頁</button>
+    </div>
   </div>
   <div class="center">
     <h2 id="drawTitle">抽牌</h2>
     <div class="divider"></div>
     <p id="drawCount" class="small-text"></p>
-    <div id="deck" class="deck"></div>
+    <p class="small-text">此處為 78 張塔羅牌庫，已抽過的牌不會重複。</p>
+    <div class="deck-wrap"><div id="deck" class="deck"></div></div>
   </div>
 </section>
 
 <section id="result" class="page">
   <div class="top">
-    <div class="brand-small">☾ SOUL NEST ✦</div>
-    <button class="btn-sub" onclick="goPage('home')">回首頁</button>
+    <div class="top-left"><div class="brand-small">☾ SOUL NEST ✦</div></div>
+    <div class="top-right">
+      <button class="btn-sub btn-mini" onclick="goBack()">← 上一步</button>
+      <button class="btn-sub btn-mini" onclick="toggleTeacherMode()">老師模式</button>
+      <button class="btn-sub btn-mini" onclick="goPage('home')">首頁</button>
+    </div>
   </div>
   <div class="center">
     <h2>牌卡結果</h2>
@@ -429,6 +475,8 @@ input[type=range]{width:260px;accent-color:var(--gold)}
     <p class="small-text">系統只顯示牌卡結果，不自動解牌。真正解析由老師親自說明。</p>
     <div id="resultInfo" class="mode-note"></div>
     <div id="resultLayout" class="result-layout"></div>
+    <div id="decisionNote"></div>
+    <div id="teacherKeywords"></div>
 
     <div class="oracle-section">
       <h2>神諭卡訊息</h2>
@@ -452,16 +500,17 @@ input[type=range]{width:260px;accent-color:var(--gold)}
 
 <section id="history" class="page">
   <div class="top">
-    <div class="brand-small">☾ SOUL NEST ✦</div>
-    <button class="btn-sub" onclick="goPage('home')">回首頁</button>
+    <div class="top-left"><div class="brand-small">☾ SOUL NEST ✦</div></div>
+    <div class="top-right">
+      <button class="btn-sub btn-mini" onclick="goBack()">← 上一步</button>
+      <button class="btn-sub btn-mini" onclick="goPage('home')">首頁</button>
+    </div>
   </div>
   <div class="center" style="justify-content:flex-start;padding-top:50px">
     <h2>我的抽牌紀錄</h2>
     <div class="divider"></div>
     <p class="small-text">目前使用瀏覽器 LocalStorage 暫存紀錄。</p>
-    <div class="actions">
-      <button class="btn-sub" onclick="clearHistory()">清除紀錄</button>
-    </div>
+    <div class="actions"><button class="btn-sub" onclick="clearHistory()">清除紀錄</button></div>
     <div id="historyList" class="history-list"></div>
   </div>
 </section>
@@ -475,18 +524,25 @@ const tarotCards = [
 "錢幣一","錢幣二","錢幣三","錢幣四","錢幣五","錢幣六","錢幣七","錢幣八","錢幣九","錢幣十","錢幣侍從","錢幣騎士","錢幣皇后","錢幣國王"
 ];
 
+const tarotKeywords = {
+"愚人":["開始","未知","冒險","自由"],"魔術師":["資源","創造","行動","顯化"],"女祭司":["直覺","秘密","潛意識","等待"],
+"皇后":["滋養","豐盛","魅力","孕育"],"皇帝":["穩定","規則","掌控","責任"],"教皇":["傳統","學習","信念","指導"],
+"戀人":["選擇","關係","真誠","價值觀"],"戰車":["前進","意志","控制","勝利"],"力量":["耐心","溫柔","以柔克剛","內在力量"],
+"隱者":["沉澱","尋找答案","獨處","智慧"],"命運之輪":["轉機","命運","循環","變化"],"正義":["公平","判斷","因果","平衡"],
+"吊人":["等待","換角度","犧牲","停頓"],"死神":["結束","重生","轉化","放下"],"節制":["調和","平衡","整合","療癒"],
+"惡魔":["執著","慾望","束縛","誘惑"],"塔":["突發","崩塌","真相","破壞重建"],"星星":["希望","療癒","願景","祝福"],
+"月亮":["不安","未知","潛意識","幻象"],"太陽":["成功","開朗","清楚","正向"],"審判":["覺醒","召喚","復甦","重新評估"],
+"世界":["完成","整合","圓滿","成果"]
+};
+
 const spreads = {
   triangle:{name:"聖三角牌陣",count:6,positions:["現況","問題","建議","身","心","靈"],layout:"layout-triangle"},
   time:{name:"時間之流牌陣",count:3,positions:["過去","現在","未來"],layout:"layout-time"},
-  decision:{name:"決策牌陣",count:6,positions:["A方向","A補充","命運之輪","B補充","B方向","淺意識"],layout:"layout-decision"},
+  decision:{name:"決策牌陣",count:6,positions:["A方向","A補充","中間／共同能量","B補充","B方向","淺意識"],layout:"layout-decision"},
   universal:{name:"萬用牌陣",count:3,positions:["核心主因 70%","外在影響 15%","潛意識／提醒 15%"],layout:"layout-universal"}
 };
 
-const modeLabels = {
-  upright:"正位抽牌",
-  normal:"正逆位抽牌",
-  custom:"自訂機率"
-};
+const modeLabels = {upright:"正位抽牌",normal:"正逆位抽牌",custom:"自訂機率"};
 
 const oracleCards = [
 {type:"soul",cn:"信任過程",en:"Trust the Timing",msg:"有些事情不是沒有發生，而是在最適合的時間靠近你。"},
@@ -535,34 +591,45 @@ const oracleCards = [
 {type:"angel",cn:"祝福",en:"Blessings",msg:"此刻的你已經足夠好了，願祝福在最適合的時間來到你身邊。"}
 ];
 
+let pageStack = ["home"];
 let currentSpread = null;
 let currentSpreadId = "";
 let currentMode = "normal";
 let uprightPercent = 50;
-let selected = [];
+let selectedIndexes = [];
+let availableDeck = [];
 let results = [];
 let oracleResult = null;
+let teacherMode = false;
 
+function currentPage(){return pageStack[pageStack.length-1] || "home"}
 function goPage(id){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  if(pageStack[pageStack.length-1] !== id) pageStack.push(id);
+  window.scrollTo(0,0);
+}
+function goBack(){
+  if(pageStack.length <= 1){goPage("home");return}
+  pageStack.pop();
+  const id = pageStack[pageStack.length-1] || "home";
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById(id).classList.add("active");
   window.scrollTo(0,0);
 }
-
 function chooseSpread(id){
   currentSpreadId = id;
   currentSpread = spreads[id];
-  selected = [];
+  selectedIndexes = [];
   results = [];
   oracleResult = null;
+  teacherMode = false;
   goPage("mode");
 }
-
 function updateRangeText(){
   const v = Number(document.getElementById("uprightRange").value);
   document.getElementById("rangeText").innerText = `正位 ${v}%｜逆位 ${100-v}%`;
 }
-
 function chooseMode(mode){
   currentMode = mode;
   if(mode === "upright") uprightPercent = 100;
@@ -571,35 +638,34 @@ function chooseMode(mode){
   document.getElementById("selectedInfo").innerText = `${currentSpread.name}｜${modeLabels[currentMode]}｜正位 ${uprightPercent}%`;
   goPage("shuffle");
 }
-
 function goDraw(){
-  selected = [];
+  selectedIndexes = [];
   results = [];
   oracleResult = null;
+  availableDeck = tarotCards.map((name, index)=>({name,index}));
   document.getElementById("drawTitle").innerText = currentSpread.name;
   updateDrawCount();
   const deck = document.getElementById("deck");
   deck.innerHTML = "";
-  for(let i=0;i<12;i++){
+  tarotCards.forEach((_, i)=>{
     const card = document.createElement("div");
     card.className = "card-back";
     card.innerHTML = `<div class="sigil">☾</div><div class="brand">SOUL<br>NEST</div><div style="margin-top:4px">✦</div>`;
     card.onclick = () => pickCard(i, card);
     deck.appendChild(card);
-  }
+  });
   goPage("draw");
 }
-
 function updateDrawCount(){
-  document.getElementById("drawCount").innerText = `請抽出 ${currentSpread.count} 張牌｜已選擇 ${selected.length} / ${currentSpread.count}`;
+  document.getElementById("drawCount").innerText = `請抽出 ${currentSpread.count} 張牌｜已選擇 ${selectedIndexes.length} / ${currentSpread.count}`;
 }
-
 function pickCard(index, el){
-  if(selected.includes(index) || selected.length >= currentSpread.count) return;
-  selected.push(index);
+  if(selectedIndexes.includes(index) || selectedIndexes.length >= currentSpread.count) return;
+  selectedIndexes.push(index);
   el.classList.add("selected");
   updateDrawCount();
-  if(selected.length === currentSpread.count){
+  if(selectedIndexes.length === currentSpread.count){
+    document.querySelectorAll(".card-back").forEach(c=>c.classList.add("disabled"));
     setTimeout(()=>{
       generateResults();
       renderResults();
@@ -607,26 +673,32 @@ function pickCard(index, el){
     },650);
   }
 }
-
 function getOrientation(){
   return Math.random()*100 < uprightPercent ? "正位" : "逆位";
 }
-
+function drawOneFromDeck(excludeWheel=false){
+  let pool = availableDeck.filter(c=>!excludeWheel || c.name !== "命運之輪");
+  const picked = pool[Math.floor(Math.random()*pool.length)];
+  availableDeck = availableDeck.filter(c=>c.name !== picked.name);
+  return picked.name;
+}
 function generateResults(){
-  let pool = [...tarotCards];
-  results = currentSpread.positions.map((pos)=>{
-    let name;
-    if(pos === "命運之輪"){
-      name = "命運之輪";
-    }else{
-      const usable = pool.filter(c=>c !== "命運之輪");
-      name = usable[Math.floor(Math.random()*usable.length)];
-      pool = pool.filter(c=>c !== name);
+  availableDeck = tarotCards.map((name,index)=>({name,index}));
+  results = [];
+  if(currentSpreadId === "decision"){
+    const wheelSlot = Math.floor(Math.random()*5); // 0-4，代表命運之輪放在決策五張中其中一張
+    const decisionPositions = ["A方向","A補充","中間／共同能量","B補充","B方向"];
+    for(let i=0;i<5;i++){
+      let name = i === wheelSlot ? "命運之輪" : drawOneFromDeck(true);
+      results.push({position:decisionPositions[i],name,orientation:getOrientation()});
     }
-    return {position:pos,name,orientation:getOrientation()};
+    results.push({position:"淺意識",name:drawOneFromDeck(true),orientation:getOrientation()});
+    return;
+  }
+  currentSpread.positions.forEach((pos)=>{
+    results.push({position:pos,name:drawOneFromDeck(false),orientation:getOrientation()});
   });
 }
-
 function renderResults(){
   document.getElementById("resultInfo").innerText = `${currentSpread.name}｜${modeLabels[currentMode]}｜正位 ${uprightPercent}%`;
   const box = document.getElementById("resultLayout");
@@ -646,10 +718,38 @@ function renderResults(){
     `;
     box.appendChild(div);
   });
+  renderDecisionNote();
+  renderTeacherKeywords();
   document.getElementById("oracleOptions").style.display = "flex";
   document.getElementById("oracleResult").innerHTML = "";
 }
-
+function renderDecisionNote(){
+  const el = document.getElementById("decisionNote");
+  el.innerHTML = "";
+  if(currentSpreadId !== "decision") return;
+  const wheel = results.find(r=>r.name === "命運之輪");
+  let msg = "";
+  if(!wheel){ msg = "命運之輪沒有出現在五張牌中，代表暫時先不要選，後面可能還有更好的選擇。"; }
+  else if(wheel.position.includes("A")) msg = "命運之輪偏向 A，代表目前能量較支持 A 方向。";
+  else if(wheel.position.includes("B")) msg = "命運之輪偏向 B，代表目前能量較支持 B 方向。";
+  else if(wheel.position.includes("中間")) msg = "命運之輪落在中間，代表 A / B 都可以，重點在於你怎麼選擇與承擔。";
+  else msg = "命運之輪位置特殊，建議由老師進一步解讀。";
+  el.innerHTML = `<div class="decision-note"><strong>☸ 決策提示：</strong><br>${msg}</div>`;
+}
+function toggleTeacherMode(){
+  teacherMode = !teacherMode;
+  renderTeacherKeywords();
+}
+function renderTeacherKeywords(){
+  const box = document.getElementById("teacherKeywords");
+  box.innerHTML = "";
+  if(!teacherMode) return;
+  const html = results.map(r=>{
+    const kw = tarotKeywords[r.name] || ["牌義延伸","依牌位解讀","結合問題","由老師補充"];
+    return `<div class="badge">${r.position}｜${r.name}：${kw.join("・")}</div>`;
+  }).join("");
+  box.innerHTML = `<div class="teacher-box teacher-mode-on" style="margin-top:28px;max-width:760px"><h3 style="color:#f8e7a1">老師模式｜牌義關鍵字</h3>${html}</div>`;
+}
 function drawOracle(type){
   const pool = oracleCards.filter(c=>c.type === type);
   const card = pool[Math.floor(Math.random()*pool.length)];
@@ -665,7 +765,6 @@ function drawOracle(type){
   document.getElementById("oracleOptions").style.display = "none";
   saveRecord();
 }
-
 function saveRecord(){
   const record = {
     date:new Date().toLocaleString("zh-TW"),
@@ -679,17 +778,16 @@ function saveRecord(){
   old.unshift(record);
   localStorage.setItem("soulNestRecords", JSON.stringify(old.slice(0,30)));
 }
-
 function restartSame(){
   if(currentSpread){
-    selected = [];
+    selectedIndexes = [];
     results = [];
     oracleResult = null;
+    teacherMode = false;
     document.getElementById("selectedInfo").innerText = `${currentSpread.name}｜${modeLabels[currentMode]}｜正位 ${uprightPercent}%`;
     goPage("shuffle");
   }
 }
-
 function showHistory(){
   const list = document.getElementById("historyList");
   const records = JSON.parse(localStorage.getItem("soulNestRecords") || "[]");
@@ -707,7 +805,6 @@ function showHistory(){
   }
   goPage("history");
 }
-
 function clearHistory(){
   if(confirm("確定要清除所有抽牌紀錄嗎？")){
     localStorage.removeItem("soulNestRecords");
