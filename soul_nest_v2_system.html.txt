@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SOUL NEST｜Where Your Soul Finds Answers</title>
+<style>
+*{box-sizing:border-box}
+:root{
+  --bg:#0B1020;
+  --deep:#11183A;
+  --gold:#D4AF37;
+  --white:#F8F6F2;
+  --purple:#6E5B9A;
+}
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:"Noto Serif TC","Times New Roman",serif;
+  background:var(--bg);
+  color:var(--white);
+  overflow-x:hidden;
+}
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(circle at 50% 15%,rgba(212,175,55,.22),transparent 24%),
+    radial-gradient(circle at 75% 85%,rgba(110,91,154,.22),transparent 34%),
+    linear-gradient(to bottom,#050816,#0B1020 55%,#040713);
+  z-index:-4;
+}
+.stars,.stars:before,.stars:after{
+  position:fixed;
+  inset:0;
+  content:"";
+  pointer-events:none;
+}
+.stars{
+  background-image:
+    radial-gradient(#fff 1px,transparent 1.4px),
+    radial-gradient(var(--gold) 1px,transparent 1.2px);
+  background-size:90px 90px,150px 150px;
+  opacity:.34;
+  animation:starMove 22s linear infinite;
+  z-index:-3;
+}
+.stars:before{
+  background:radial-gradient(circle at 50% 90%,rgba(212,175,55,.25),transparent 28%);
+  opacity:.8;
+}
+.stars:after{
+  background:
+    linear-gradient(90deg,transparent,rgba(212,175,55,.25),transparent),
+    radial-gradient(circle at 50% 55%,transparent 0 34%,rgba(212,175,55,.13) 34.2% 34.6%,transparent 35%);
+  opacity:.38;
+}
+@keyframes starMove{to{transform:translateY(-90px)}}
+.page{
+  display:none;
+  min-height:100vh;
+  padding:24px 18px 42px;
+  max-width:1180px;
+  margin:auto;
+}
+.page.active{display:block}
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  color:var(--gold);
+  letter-spacing:4px;
+  font-size:13px;
+  min-height:36px;
+}
+.brand-small{display:flex;align-items:center;gap:10px}
+button{
+  border:none;
+  cursor:pointer;
+  border-radius:999px;
+  padding:14px 26px;
+  font-size:16px;
+  font-family:inherit;
+  transition:.25s;
+}
+.btn-main{
+  color:#0B1020;
+  background:linear-gradient(180deg,#fff0b7,#D4AF37);
+  border:1px solid rgba(255,255,255,.4);
+  box-shadow:0 0 24px rgba(212,175,55,.32);
+}
+.btn-main:hover{transform:translateY(-2px);box-shadow:0 0 38px rgba(212,175,55,.55)}
+.btn-sub{
+  background:rgba(255,255,255,.07);
+  color:var(--white);
+  border:1px solid rgba(212,175,55,.28);
+}
+.btn-sub:hover{background:rgba(212,175,55,.12)}
+.hero,.center{
+  min-height:82vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+.logo-moon{
+  width:118px;height:118px;
+  border:1px solid rgba(212,175,55,.55);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:58px;color:var(--gold);
+  box-shadow:0 0 80px rgba(212,175,55,.32), inset 0 0 35px rgba(212,175,55,.10);
+  margin-bottom:30px;
+  position:relative;
+}
+.logo-moon:before,.logo-moon:after{
+  content:"";
+  position:absolute;
+  border:1px solid rgba(212,175,55,.26);
+  border-radius:50%;
+}
+.logo-moon:before{inset:-14px}
+.logo-moon:after{inset:-28px;border-style:dashed}
+h1{
+  font-size:58px;
+  letter-spacing:12px;
+  margin:0;
+  color:#fff5cf;
+  text-shadow:0 0 22px rgba(212,175,55,.35);
+}
+h2{font-size:34px;letter-spacing:3px;color:#fff5cf;margin:12px 0}
+.tagline{color:#f8e7a1;margin-top:12px;letter-spacing:2px;font-size:18px}
+.main-text{font-size:25px;line-height:1.7;margin:44px 0 14px}
+.small-text{color:rgba(248,246,242,.72);line-height:1.75}
+.divider{
+  width:260px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  margin:22px auto;
+  position:relative;
+}
+.divider:after{content:"✦";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:var(--gold);background:var(--bg);padding:0 12px}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:18px;
+  width:100%;
+  margin-top:38px;
+}
+.panel,.mode-card,.history-card{
+  background:linear-gradient(180deg,rgba(17,24,58,.78),rgba(5,8,22,.78));
+  border:1px solid rgba(212,175,55,.38);
+  border-radius:26px;
+  padding:24px;
+  backdrop-filter:blur(10px);
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 18px 45px rgba(0,0,0,.35);
+}
+.panel:before,.mode-card:before,.history-card:before{
+  content:"";
+  position:absolute;inset:9px;
+  border:1px solid rgba(212,175,55,.16);
+  border-radius:20px;
+  pointer-events:none;
+}
+.icon{
+  width:92px;height:92px;border-radius:50%;
+  border:1px solid rgba(212,175,55,.38);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 18px;
+  color:var(--gold);
+  font-size:42px;
+  background:radial-gradient(circle,rgba(212,175,55,.18),transparent 70%);
+}
+.panel h3,.mode-card h3{font-size:24px;margin:8px 0;color:#fff5cf}
+.panel p,.mode-card p,.history-card p{color:rgba(248,246,242,.68);line-height:1.7}
+.choice-row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:26px}
+.shuffle-box{
+  position:relative;width:270px;height:270px;margin-bottom:32px;
+}
+.float-card{
+  position:absolute;left:95px;top:70px;width:80px;height:120px;
+  border-radius:16px;border:1px solid rgba(212,175,55,.65);
+  background:linear-gradient(#11183A,#050816);
+  box-shadow:0 0 24px rgba(212,175,55,.2);
+  animation:spin 2.8s linear infinite;
+}
+.float-card:before{content:"☾";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:30px}
+.float-card:nth-child(2){animation-delay:.22s}
+.float-card:nth-child(3){animation-delay:.44s}
+.float-card:nth-child(4){animation-delay:.66s}
+.float-card:nth-child(5){animation-delay:.88s}
+@keyframes spin{
+  0%{transform:rotate(0deg) translateX(62px) rotate(0deg)}
+  100%{transform:rotate(360deg) translateX(62px) rotate(-360deg)}
+}
+.deck{
+  display:flex;
+  flex-wrap:wrap;
+  gap:14px;
+  justify-content:center;
+  margin-top:34px;
+  perspective:800px;
+}
+.card-back,.result-card,.oracle-card-ui{
+  border-radius:18px;
+  border:1px solid rgba(212,175,55,.58);
+  background:
+    radial-gradient(circle at 50% 22%,rgba(212,175,55,.13),transparent 26%),
+    linear-gradient(180deg,#11183A,#050816);
+  color:var(--gold);
+  box-shadow:0 14px 34px rgba(0,0,0,.38), inset 0 0 0 6px rgba(212,175,55,.05);
+  position:relative;
+  overflow:hidden;
+}
+.card-back{
+  width:96px;height:150px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  transition:.25s;
+}
+.card-back:before,.result-card:before,.oracle-card-ui:before{
+  content:"";position:absolute;inset:7px;border:1px solid rgba(212,175,55,.20);border-radius:13px;pointer-events:none;
+}
+.card-back:hover{transform:translateY(-9px) scale(1.02);box-shadow:0 0 36px rgba(212,175,55,.42)}
+.card-back.selected{background:rgba(212,175,55,.18);transform:translateY(-9px) scale(1.04)}
+.card-back .brand{font-size:10px;letter-spacing:3px;line-height:1.5;margin-top:8px}
+.card-back .sigil{font-size:42px}
+.result-layout{
+  margin-top:36px;
+  display:grid;
+  gap:18px;
+  justify-content:center;
+  width:100%;
+}
+.layout-triangle{grid-template-columns:repeat(3,158px)}
+.layout-time{grid-template-columns:repeat(3,158px);align-items:center}
+.layout-universal{grid-template-columns:repeat(2,170px)}
+.layout-universal .core{
+  grid-column:1/3;justify-self:center;transform:scale(1.16);
+  box-shadow:0 0 58px rgba(212,175,55,.38);
+}
+.layout-decision{grid-template-columns:repeat(3,158px)}
+.result-card{
+  width:158px;min-height:232px;padding:18px 12px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  color:var(--white);
+}
+.result-card.wheel{border-color:#fff0b7;box-shadow:0 0 62px rgba(212,175,55,.58)}
+.position{color:#f8e7a1;font-size:14px;margin-bottom:12px}
+.card-name{font-size:22px;color:#fff;margin:12px 0}
+.orientation{color:rgba(248,246,242,.72)}
+.oracle-section{margin-top:46px;text-align:center;width:100%}
+.oracle-options{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:20px 0}
+.oracle-card-ui{
+  width:min(330px,90vw);
+  min-height:230px;
+  margin:22px auto;
+  padding:30px 24px;
+  color:#fff;
+}
+.oracle-card-ui h3{color:#f8e7a1;font-size:28px;margin:12px 0 8px}
+.oracle-card-ui .en{font-style:italic;font-size:18px;color:#fff;margin-bottom:18px}
+.oracle-card-ui p{line-height:1.9;color:rgba(248,246,242,.78)}
+.actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:34px}
+.mode-note{
+  margin-top:12px;
+  padding:10px 14px;
+  border:1px solid rgba(212,175,55,.24);
+  border-radius:999px;
+  color:#f8e7a1;
+  background:rgba(212,175,55,.08);
+  display:inline-block;
+}
+input[type=range]{width:260px;accent-color:var(--gold)}
+.history-list{display:grid;gap:14px;width:100%;margin-top:30px}
+.history-card{text-align:left}
+.history-card strong{color:#f8e7a1}
+.badge{
+  display:inline-block;padding:5px 10px;border-radius:999px;
+  background:rgba(212,175,55,.12);border:1px solid rgba(212,175,55,.28);
+  color:#f8e7a1;font-size:12px;margin:3px;
+}
+@media(max-width:640px){
+  .page{padding:20px 14px 36px}
+  h1{font-size:40px;letter-spacing:6px}
+  h2{font-size:28px}
+  .main-text{font-size:21px}
+  .layout-triangle,.layout-time,.layout-decision{grid-template-columns:repeat(2,158px)}
+  .layout-universal{grid-template-columns:1fr}
+  .layout-universal .core{grid-column:auto}
+  .result-card{width:150px}
+}
+</style>
+</head>
+<body>
+<div class="stars"></div>
+
+<section id="home" class="page active">
+  <div class="top">
+    <div class="brand-small">☾ SOUL NEST ✦</div>
+    <button class="btn-sub" onclick="showHistory()">抽牌紀錄</button>
+  </div>
+  <div class="hero">
+    <div class="logo-moon">☾</div>
+    <h1>SOUL NEST</h1>
+    <div class="tagline">Where Your Soul Finds Answers</div>
+    <div class="divider"></div>
+    <div class="main-text">跟隨直覺，<br>讓牌卡帶你看見內心的答案。</div>
+    <div class="small-text">AI 儀式感抽牌 × 真人靈魂解析</div>
+    <br><br>
+    <button class="btn-main" onclick="goPage('select')">開始抽牌</button>
+  </div>
+</section>
+
+<section id="select" class="page">
+  <div class="top">
+    <div class="brand-small">☾ SOUL NEST ✦</div>
+    <button class="btn-sub" onclick="goPage('home')">回首頁</button>
+  </div>
+  <div class="center">
+    <h2>選擇牌陣</h2>
+    <div class="divider"></div>
+    <p class="small-text">老師先與客戶討論問題，再選擇最適合的牌陣。</p>
+    <div class="grid">
+      <div class="panel">
+        <div class="icon">△</div>
+        <h3>聖三角牌陣</h3>
+        <p>現況・問題・建議<br>身・心・靈</p>
+        <button class="btn-main" onclick="chooseSpread('triangle')">6 張牌</button>
+      </div>
+      <div class="panel">
+        <div class="icon">→</div>
+        <h3>時間之流牌陣</h3>
+        <p>過去・現在・未來<br>看事情的流動方向</p>
+        <button class="btn-main" onclick="chooseSpread('time')">3 張牌</button>
+      </div>
+      <div class="panel">
+        <div class="icon">☸</div>
+        <h3>決策牌陣</h3>
+        <p>命運之輪指引方向<br>A / B 選擇</p>
+        <button class="btn-main" onclick="chooseSpread('decision')">6 張牌</button>
+      </div>
+      <div class="panel">
+        <div class="icon">✦</div>
+        <h3>萬用牌陣</h3>
+        <p>核心主因 70%<br>輔助訊息 30%</p>
+        <button class="btn-main" onclick="chooseSpread('universal')">3 張牌</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="mode" class="page">
+  <div class="top">
+    <div class="brand-small">☾ SOUL NEST ✦</div>
+    <button class="btn-sub" onclick="goPage('select')">重選牌陣</button>
+  </div>
+  <div class="center">
+    <h2>選擇抽牌模式</h2>
+    <div class="divider"></div>
+    <p class="small-text">可依照占卜需求選擇正位、正逆位，或自訂機率。</p>
+    <div class="grid">
+      <div class="mode-card">
+        <div class="icon">☾</div>
+        <h3>正位抽牌</h3>
+        <p>所有牌皆為正位。適合每日訊息、療癒抽牌、新手客戶。</p>
+        <button class="btn-main" onclick="chooseMode('upright')">選擇正位</button>
+      </div>
+      <div class="mode-card">
+        <div class="icon">☯</div>
+        <h3>正逆位抽牌</h3>
+        <p>正位 50%／逆位 50%。適合深度解析與專業占卜。</p>
+        <button class="btn-main" onclick="chooseMode('normal')">選擇正常抽牌</button>
+      </div>
+      <div class="mode-card">
+        <div class="icon">⚙</div>
+        <h3>自訂機率</h3>
+        <p>老師可自行設定正位比例。</p>
+        <div style="margin:18px 0">
+          <input id="uprightRange" type="range" min="0" max="100" value="70" oninput="updateRangeText()" />
+          <div id="rangeText" class="mode-note">正位 70%｜逆位 30%</div>
+        </div>
+        <button class="btn-main" onclick="chooseMode('custom')">使用自訂機率</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="shuffle" class="page">
+  <div class="top">
+    <div class="brand-small">☾ SOUL NEST ✦</div>
+    <button class="btn-sub" onclick="goPage('mode')">重選模式</button>
+  </div>
+  <div class="center">
+    <div class="shuffle-box">
+      <div class="float-card"></div><div class="float-card"></div><div class="float-card"></div><div class="float-card"></div><div class="float-card"></div>
+    </div>
+    <h2>洗牌儀式</h2>
+    <div class="divider"></div>
+    <p class="small-text">請在心中想著你的問題。<br>深呼吸，跟隨你的直覺。</p>
+    <div id="selectedInfo" class="mode-note"></div>
+    <br><br>
+    <button class="btn-main" onclick="goDraw()">準備抽牌</button>
+  </div>
+</section>
+
+<section id="draw" class="page">
+  <div class="top">
+    <div class="brand-small">☾ SOUL NEST ✦</div>
+    <button class="btn-sub" onclick="goPage('select')">重選牌陣</button>
+  </div>
+  <div class="center">
+    <h2 id="drawTitle">抽牌</h2>
+    <div class="divider"></div>
+    <p id="drawCount" class="small-text"></p>
+    <div id="deck" class="deck"></div>
+  </div>
+</section>
+
+<section id="result" class="page">
+  <div class="top">
+    <div class="brand-small">☾ SOUL NEST ✦</div>
+    <button class="btn-sub" onclick="goPage('home')">回首頁</button>
+  </div>
+  <div class="center">
+    <h2>牌卡結果</h2>
+    <div class="divider"></div>
+    <p class="small-text">系統只顯示牌卡結果，不自動解牌。真正解析由老師親自說明。</p>
+    <div id="resultInfo" class="mode-note"></div>
+    <div id="resultLayout" class="result-layout"></div>
+
+    <div class="oracle-section">
+      <h2>神諭卡訊息</h2>
+      <p class="small-text">塔羅帶你看見現況，神諭卡帶來靈魂的提醒。</p>
+      <div id="oracleOptions" class="oracle-options">
+        <button class="btn-sub" onclick="drawOracle('soul')">🌙 靈魂訊息</button>
+        <button class="btn-sub" onclick="drawOracle('love')">❤️ 感情訊息</button>
+        <button class="btn-sub" onclick="drawOracle('cosmic')">✨ 宇宙訊息</button>
+        <button class="btn-sub" onclick="drawOracle('angel')">👼 天使訊息</button>
+      </div>
+      <div id="oracleResult"></div>
+    </div>
+
+    <div class="actions">
+      <button class="btn-sub" onclick="window.print()">截圖 / 列印保存</button>
+      <button class="btn-main" onclick="alert('之後可改成 LINE 官方帳號連結')">傳給老師解牌</button>
+      <button class="btn-sub" onclick="restartSame()">再抽一次</button>
+    </div>
+  </div>
+</section>
+
+<section id="history" class="page">
+  <div class="top">
+    <div class="brand-small">☾ SOUL NEST ✦</div>
+    <button class="btn-sub" onclick="goPage('home')">回首頁</button>
+  </div>
+  <div class="center" style="justify-content:flex-start;padding-top:50px">
+    <h2>我的抽牌紀錄</h2>
+    <div class="divider"></div>
+    <p class="small-text">目前使用瀏覽器 LocalStorage 暫存紀錄。</p>
+    <div class="actions">
+      <button class="btn-sub" onclick="clearHistory()">清除紀錄</button>
+    </div>
+    <div id="historyList" class="history-list"></div>
+  </div>
+</section>
+
+<script>
+const tarotCards = [
+"愚人","魔術師","女祭司","皇后","皇帝","教皇","戀人","戰車","力量","隱者","命運之輪","正義","吊人","死神","節制","惡魔","塔","星星","月亮","太陽","審判","世界",
+"權杖一","權杖二","權杖三","權杖四","權杖五","權杖六","權杖七","權杖八","權杖九","權杖十","權杖侍從","權杖騎士","權杖皇后","權杖國王",
+"聖杯一","聖杯二","聖杯三","聖杯四","聖杯五","聖杯六","聖杯七","聖杯八","聖杯九","聖杯十","聖杯侍從","聖杯騎士","聖杯皇后","聖杯國王",
+"寶劍一","寶劍二","寶劍三","寶劍四","寶劍五","寶劍六","寶劍七","寶劍八","寶劍九","寶劍十","寶劍侍從","寶劍騎士","寶劍皇后","寶劍國王",
+"錢幣一","錢幣二","錢幣三","錢幣四","錢幣五","錢幣六","錢幣七","錢幣八","錢幣九","錢幣十","錢幣侍從","錢幣騎士","錢幣皇后","錢幣國王"
+];
+
+const spreads = {
+  triangle:{name:"聖三角牌陣",count:6,positions:["現況","問題","建議","身","心","靈"],layout:"layout-triangle"},
+  time:{name:"時間之流牌陣",count:3,positions:["過去","現在","未來"],layout:"layout-time"},
+  decision:{name:"決策牌陣",count:6,positions:["A方向","A補充","命運之輪","B補充","B方向","淺意識"],layout:"layout-decision"},
+  universal:{name:"萬用牌陣",count:3,positions:["核心主因 70%","外在影響 15%","潛意識／提醒 15%"],layout:"layout-universal"}
+};
+
+const modeLabels = {
+  upright:"正位抽牌",
+  normal:"正逆位抽牌",
+  custom:"自訂機率"
+};
+
+const oracleCards = [
+{type:"soul",cn:"信任過程",en:"Trust the Timing",msg:"有些事情不是沒有發生，而是在最適合的時間靠近你。"},
+{type:"soul",cn:"回到自己",en:"Return to Yourself",msg:"當你停止向外尋找，答案就會慢慢浮現。"},
+{type:"soul",cn:"允許改變",en:"Allow Change",msg:"改變不是失去，而是成為新的自己。"},
+{type:"soul",cn:"放下控制",en:"Release Control",msg:"不必掌控所有事情，有些答案來自於相信。"},
+{type:"soul",cn:"勇敢跨出一步",en:"Take the First Step",msg:"你正在等待的，其實也是在等待你。"},
+{type:"soul",cn:"看見真實的自己",en:"See Your True Self",msg:"你不需要成為別人期待的樣子，你只需要更誠實地看見自己。"},
+{type:"soul",cn:"接納不完美",en:"Embrace Imperfection",msg:"不完美並不代表不值得被愛，那也是你真實的一部分。"},
+{type:"soul",cn:"傾聽內在聲音",en:"Listen Within",msg:"安靜下來，你會聽見心裡早就知道的答案。"},
+{type:"soul",cn:"找回力量",en:"Reclaim Your Power",msg:"你比自己想像中更有力量，只是暫時忘記了。"},
+{type:"soul",cn:"靈魂的方向",en:"Soul Direction",msg:"真正適合你的路，會讓你的心慢慢安定。"},
+{type:"soul",cn:"成為光",en:"Be the Light",msg:"當你願意照亮自己，也會照亮正在靠近你的人。"},
+{type:"love",cn:"愛正在靠近",en:"Love Is Near",msg:"保持開放，愛會用自己的方式來到你身邊。"},
+{type:"love",cn:"真誠表達",en:"Speak Your Heart",msg:"被理解的開始，是願意說出自己的感受。"},
+{type:"love",cn:"尊重界線",en:"Healthy Boundaries",msg:"真正的愛，不需要你失去自己。"},
+{type:"love",cn:"放下執著",en:"Let Go",msg:"有時候放手，才是讓幸福靠近的開始。"},
+{type:"love",cn:"相信連結",en:"Trust the Connection",msg:"真正有緣的連結，不會因為一時距離而消失。"},
+{type:"love",cn:"愛自己",en:"Love Yourself First",msg:"當你更愛自己，愛也會用更健康的方式靠近。"},
+{type:"love",cn:"接受愛",en:"Receive Love",msg:"你值得被溫柔對待，也值得被好好珍惜。"},
+{type:"love",cn:"關係中的成長",en:"Growing Together",msg:"真正的關係，不只讓人心動，也讓彼此成長。"},
+{type:"love",cn:"理解與包容",en:"Compassion",msg:"多一點理解，關係就會多一點空間。"},
+{type:"love",cn:"重新開始",en:"New Beginning",msg:"新的開始不一定轟轟烈烈，也可能是你願意重新相信。"},
+{type:"love",cn:"真愛值得等待",en:"Worth the Wait",msg:"屬於你的愛，不需要靠委屈自己換來。"},
+{type:"cosmic",cn:"順流而行",en:"Go With the Flow",msg:"當你停止對抗，事情會開始自然流動。"},
+{type:"cosmic",cn:"一切都有安排",en:"Divine Timing",msg:"看似巧合，其實都有它的意義。"},
+{type:"cosmic",cn:"保持耐心",en:"Be Patient",msg:"種下的種子，正在看不見的地方成長。"},
+{type:"cosmic",cn:"擁抱未知",en:"Embrace the Unknown",msg:"未知不代表危險，而是新的可能。"},
+{type:"cosmic",cn:"接受祝福",en:"Receive",msg:"你值得被愛、被支持、被祝福。"},
+{type:"cosmic",cn:"相信奇蹟",en:"Believe in Miracles",msg:"不要太快否定可能性，宇宙有時會用意想不到的方式回應你。"},
+{type:"cosmic",cn:"宇宙正在回應你",en:"The Universe Responds",msg:"你發出的願望與努力，正在被看見。"},
+{type:"cosmic",cn:"活在當下",en:"Be Present",msg:"答案不一定在遠方，也可能就在此刻。"},
+{type:"cosmic",cn:"機會正在靠近",en:"Opportunity Approaches",msg:"請保持敞開，新的可能正在靠近你。"},
+{type:"cosmic",cn:"順應節奏",en:"Trust the Rhythm",msg:"每件事都有自己的節奏，不需要急著逼自己抵達。"},
+{type:"cosmic",cn:"豐盛正在展開",en:"Abundance Unfolds",msg:"你正在慢慢走向更穩定、更豐盛的狀態。"},
+{type:"angel",cn:"你並不孤單",en:"You Are Not Alone",msg:"在你看不見的地方，一直有力量陪伴著你。"},
+{type:"angel",cn:"溫柔對待自己",en:"Be Gentle With Yourself",msg:"你已經很努力了，請不要再苛責自己。"},
+{type:"angel",cn:"相信你的光",en:"Trust Your Light",msg:"你身上的光，不會因為別人沒看見就消失。"},
+{type:"angel",cn:"安心前進",en:"Move Forward",msg:"不需要看見整條路，看見下一步就夠了。"},
+{type:"angel",cn:"好消息正在路上",en:"Good News Is Coming",msg:"保持希望，事情正在朝好的方向前進。"},
+{type:"angel",cn:"被守護著",en:"Protected",msg:"此刻的你正在被溫柔守護，請安心。"},
+{type:"angel",cn:"希望之光",en:"Light of Hope",msg:"即使現在看不清楚，也仍有光在前方。"},
+{type:"angel",cn:"勇氣",en:"Courage",msg:"勇敢不是不害怕，而是害怕時仍願意前進。"},
+{type:"angel",cn:"平靜",en:"Inner Peace",msg:"當你的心安靜下來，答案會更清楚。"},
+{type:"angel",cn:"療癒",en:"Healing",msg:"你正在修復，也正在慢慢變得完整。"},
+{type:"angel",cn:"祝福",en:"Blessings",msg:"此刻的你已經足夠好了，願祝福在最適合的時間來到你身邊。"}
+];
+
+let currentSpread = null;
+let currentSpreadId = "";
+let currentMode = "normal";
+let uprightPercent = 50;
+let selected = [];
+let results = [];
+let oracleResult = null;
+
+function goPage(id){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  window.scrollTo(0,0);
+}
+
+function chooseSpread(id){
+  currentSpreadId = id;
+  currentSpread = spreads[id];
+  selected = [];
+  results = [];
+  oracleResult = null;
+  goPage("mode");
+}
+
+function updateRangeText(){
+  const v = Number(document.getElementById("uprightRange").value);
+  document.getElementById("rangeText").innerText = `正位 ${v}%｜逆位 ${100-v}%`;
+}
+
+function chooseMode(mode){
+  currentMode = mode;
+  if(mode === "upright") uprightPercent = 100;
+  if(mode === "normal") uprightPercent = 50;
+  if(mode === "custom") uprightPercent = Number(document.getElementById("uprightRange").value);
+  document.getElementById("selectedInfo").innerText = `${currentSpread.name}｜${modeLabels[currentMode]}｜正位 ${uprightPercent}%`;
+  goPage("shuffle");
+}
+
+function goDraw(){
+  selected = [];
+  results = [];
+  oracleResult = null;
+  document.getElementById("drawTitle").innerText = currentSpread.name;
+  updateDrawCount();
+  const deck = document.getElementById("deck");
+  deck.innerHTML = "";
+  for(let i=0;i<12;i++){
+    const card = document.createElement("div");
+    card.className = "card-back";
+    card.innerHTML = `<div class="sigil">☾</div><div class="brand">SOUL<br>NEST</div><div style="margin-top:4px">✦</div>`;
+    card.onclick = () => pickCard(i, card);
+    deck.appendChild(card);
+  }
+  goPage("draw");
+}
+
+function updateDrawCount(){
+  document.getElementById("drawCount").innerText = `請抽出 ${currentSpread.count} 張牌｜已選擇 ${selected.length} / ${currentSpread.count}`;
+}
+
+function pickCard(index, el){
+  if(selected.includes(index) || selected.length >= currentSpread.count) return;
+  selected.push(index);
+  el.classList.add("selected");
+  updateDrawCount();
+  if(selected.length === currentSpread.count){
+    setTimeout(()=>{
+      generateResults();
+      renderResults();
+      goPage("result");
+    },650);
+  }
+}
+
+function getOrientation(){
+  return Math.random()*100 < uprightPercent ? "正位" : "逆位";
+}
+
+function generateResults(){
+  let pool = [...tarotCards];
+  results = currentSpread.positions.map((pos)=>{
+    let name;
+    if(pos === "命運之輪"){
+      name = "命運之輪";
+    }else{
+      const usable = pool.filter(c=>c !== "命運之輪");
+      name = usable[Math.floor(Math.random()*usable.length)];
+      pool = pool.filter(c=>c !== name);
+    }
+    return {position:pos,name,orientation:getOrientation()};
+  });
+}
+
+function renderResults(){
+  document.getElementById("resultInfo").innerText = `${currentSpread.name}｜${modeLabels[currentMode]}｜正位 ${uprightPercent}%`;
+  const box = document.getElementById("resultLayout");
+  box.className = "result-layout " + currentSpread.layout;
+  box.innerHTML = "";
+  results.forEach((r,i)=>{
+    const div = document.createElement("div");
+    let extra = "";
+    if(currentSpreadId === "universal" && i === 0) extra += " core";
+    if(r.name === "命運之輪") extra += " wheel";
+    div.className = "result-card" + extra;
+    div.innerHTML = `
+      <div class="position">${r.position}</div>
+      <div style="font-size:36px;color:#D4AF37">☾</div>
+      <div class="card-name">${r.name}</div>
+      <div class="orientation">${r.orientation}</div>
+    `;
+    box.appendChild(div);
+  });
+  document.getElementById("oracleOptions").style.display = "flex";
+  document.getElementById("oracleResult").innerHTML = "";
+}
+
+function drawOracle(type){
+  const pool = oracleCards.filter(c=>c.type === type);
+  const card = pool[Math.floor(Math.random()*pool.length)];
+  oracleResult = card;
+  document.getElementById("oracleResult").innerHTML = `
+    <div class="oracle-card-ui">
+      <div style="font-size:34px;color:#D4AF37">✦</div>
+      <h3>${card.cn}</h3>
+      <div class="en">${card.en}</div>
+      <p>${card.msg}</p>
+    </div>
+  `;
+  document.getElementById("oracleOptions").style.display = "none";
+  saveRecord();
+}
+
+function saveRecord(){
+  const record = {
+    date:new Date().toLocaleString("zh-TW"),
+    spread:currentSpread.name,
+    mode:modeLabels[currentMode],
+    uprightPercent,
+    cards:results,
+    oracle:oracleResult
+  };
+  const old = JSON.parse(localStorage.getItem("soulNestRecords") || "[]");
+  old.unshift(record);
+  localStorage.setItem("soulNestRecords", JSON.stringify(old.slice(0,30)));
+}
+
+function restartSame(){
+  if(currentSpread){
+    selected = [];
+    results = [];
+    oracleResult = null;
+    document.getElementById("selectedInfo").innerText = `${currentSpread.name}｜${modeLabels[currentMode]}｜正位 ${uprightPercent}%`;
+    goPage("shuffle");
+  }
+}
+
+function showHistory(){
+  const list = document.getElementById("historyList");
+  const records = JSON.parse(localStorage.getItem("soulNestRecords") || "[]");
+  if(records.length === 0){
+    list.innerHTML = `<p class="small-text">目前還沒有抽牌紀錄。</p>`;
+  }else{
+    list.innerHTML = records.map(r=>`
+      <div class="history-card">
+        <p><strong>${r.date}</strong></p>
+        <p><span class="badge">${r.spread}</span><span class="badge">${r.mode}</span><span class="badge">正位 ${r.uprightPercent}%</span></p>
+        <p>${r.cards.map(c=>`${c.position}：${c.name}（${c.orientation}）`).join("<br>")}</p>
+        ${r.oracle ? `<p><strong>神諭卡：</strong>${r.oracle.cn}｜${r.oracle.en}<br>${r.oracle.msg}</p>` : ""}
+      </div>
+    `).join("");
+  }
+  goPage("history");
+}
+
+function clearHistory(){
+  if(confirm("確定要清除所有抽牌紀錄嗎？")){
+    localStorage.removeItem("soulNestRecords");
+    showHistory();
+  }
+}
+</script>
+</body>
+</html>
