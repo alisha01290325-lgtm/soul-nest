@@ -72,8 +72,140 @@ button{font-family:inherit}
 /* 結果覆蓋 */
 .result-overlay{position:absolute;left:10%;right:10%;top:25%;display:grid;grid-template-columns:repeat(3,1fr);gap:22px 34px;justify-items:center}
 .result-card{text-align:center;color:#F5D37A}.result-pos{font-size:clamp(16px,3.5vw,30px);letter-spacing:.12em;margin-bottom:8px;font-weight:700}.result-sub{color:#F8F6E2;font-size:clamp(11px,2.3vw,17px);margin-top:-4px;margin-bottom:8px}
-.result-card img{width:min(21vw,145px);height:auto;aspect-ratio:.58;object-fit:cover;border:3px solid rgba(212,175,55,.92);border-radius:8px;background:#111;box-shadow:0 0 18px rgba(212,175,55,.3)}
-.result-card img.reversed{transform:rotate(180deg)}.result-name{font-size:clamp(13px,2.8vw,22px);margin-top:7px;letter-spacing:.06em}
+.result-card{
+  text-align:center;
+  color:#F5D37A;
+  position:relative;
+}
+
+/* 抽出牌卡：只發光閃亮，不移動、不換牌、不覆蓋牌 */
+.result-img-wrap{
+  position:relative;
+  display:inline-block;
+  border-radius:12px;
+  isolation:isolate;
+  animation:resultCardGlow 3.4s ease-in-out infinite;
+}
+
+.result-img-wrap::before{
+  content:"";
+  position:absolute;
+  inset:-12px;
+  border-radius:18px;
+  background:
+    radial-gradient(circle at 50% 50%,
+      rgba(255,220,145,.70) 0%,
+      rgba(245,180,80,.36) 38%,
+      rgba(245,180,80,.12) 62%,
+      transparent 74%);
+  filter:blur(10px);
+  opacity:.28;
+  z-index:-1;
+  animation:resultAuraBreath 3.4s ease-in-out infinite;
+}
+
+.result-img-wrap::after{
+  content:"✦";
+  position:absolute;
+  top:-14px;
+  right:-13px;
+  color:#ffe7a8;
+  font-size:20px;
+  line-height:1;
+  opacity:0;
+  text-shadow:
+    0 0 8px rgba(255,235,180,.95),
+    0 0 18px rgba(255,190,90,.9),
+    0 0 28px rgba(255,150,50,.55);
+  animation:resultSparkleFlash 2.6s ease-in-out infinite;
+  pointer-events:none;
+}
+
+.result-card img{
+  width:min(21vw,145px);
+  height:auto;
+  aspect-ratio:.58;
+  object-fit:cover;
+  border:3px solid rgba(212,175,55,.92);
+  border-radius:8px;
+  background:#111;
+  box-shadow:
+    0 0 16px rgba(212,175,55,.36),
+    0 0 0 1px rgba(255,230,150,.18);
+  display:block;
+  position:relative;
+  z-index:1;
+}
+
+/* 逆位只旋轉牌圖本身，發光效果不旋轉 */
+.result-card img.reversed{transform:rotate(180deg)}
+
+.result-name{font-size:clamp(13px,2.8vw,22px);margin-top:7px;letter-spacing:.06em}
+
+/* 六張牌輪流微微發亮 */
+.result-card:nth-child(1) .result-img-wrap{animation-delay:0s}
+.result-card:nth-child(1) .result-img-wrap::before{animation-delay:0s}
+.result-card:nth-child(1) .result-img-wrap::after{animation-delay:.15s}
+
+.result-card:nth-child(2) .result-img-wrap{animation-delay:.35s}
+.result-card:nth-child(2) .result-img-wrap::before{animation-delay:.35s}
+.result-card:nth-child(2) .result-img-wrap::after{animation-delay:.5s}
+
+.result-card:nth-child(3) .result-img-wrap{animation-delay:.7s}
+.result-card:nth-child(3) .result-img-wrap::before{animation-delay:.7s}
+.result-card:nth-child(3) .result-img-wrap::after{animation-delay:.85s}
+
+.result-card:nth-child(4) .result-img-wrap{animation-delay:1.05s}
+.result-card:nth-child(4) .result-img-wrap::before{animation-delay:1.05s}
+.result-card:nth-child(4) .result-img-wrap::after{animation-delay:1.2s}
+
+.result-card:nth-child(5) .result-img-wrap{animation-delay:1.4s}
+.result-card:nth-child(5) .result-img-wrap::before{animation-delay:1.4s}
+.result-card:nth-child(5) .result-img-wrap::after{animation-delay:1.55s}
+
+.result-card:nth-child(6) .result-img-wrap{animation-delay:1.75s}
+.result-card:nth-child(6) .result-img-wrap::before{animation-delay:1.75s}
+.result-card:nth-child(6) .result-img-wrap::after{animation-delay:1.9s}
+
+@keyframes resultCardGlow{
+  0%,100%{
+    filter:
+      drop-shadow(0 0 4px rgba(255,190,90,.25))
+      drop-shadow(0 0 10px rgba(255,170,70,.12));
+  }
+  50%{
+    filter:
+      drop-shadow(0 0 12px rgba(255,220,145,.9))
+      drop-shadow(0 0 28px rgba(255,175,70,.58))
+      drop-shadow(0 0 46px rgba(255,150,50,.28));
+  }
+}
+
+@keyframes resultAuraBreath{
+  0%,100%{
+    opacity:.20;
+    transform:scale(.96);
+  }
+  50%{
+    opacity:1;
+    transform:scale(1.08);
+  }
+}
+
+@keyframes resultSparkleFlash{
+  0%,68%,100%{
+    opacity:0;
+    transform:scale(.55) rotate(0deg);
+  }
+  76%{
+    opacity:1;
+    transform:scale(1.35) rotate(20deg);
+  }
+  86%{
+    opacity:.45;
+    transform:scale(.9) rotate(38deg);
+  }
+}
 .result-actions{position:absolute;left:14%;right:14%;top:84%;display:flex;gap:28px;justify-content:center}
 .action-btn{flex:1;border:1px solid rgba(245,211,122,.86);border-radius:999px;padding:14px 10px;font-size:clamp(14px,3.2vw,24px);color:#1b1205;background:linear-gradient(180deg,#fff0bd,#D4AF37,#9B6A22);cursor:pointer}.action-btn.dark{color:#F5D37A;background:rgba(2,8,20,.78)}
 @media(min-width:901px){.result-overlay{left:11.5%;right:11.5%;top:32%;grid-template-columns:repeat(6,1fr);gap:18px}.result-pos{font-size:25px;margin-bottom:8px}.result-sub{font-size:15px;margin-bottom:7px}.result-card img{width:10.7vw;max-width:150px;min-width:92px}.result-name{font-size:20px}.result-actions{left:28%;right:28%;top:88%;gap:30px}.action-btn{font-size:22px;padding:13px 12px}}
@@ -130,7 +262,7 @@ function pick(i,el){if(selected.includes(i)||selected.length>=currentSpread.coun
 function orientation(){return currentMode==="upright"?"正位":(Math.random()<.5?"正位":"逆位")}
 function pull(){const i=Math.floor(Math.random()*deck.length);return deck.splice(i,1)[0]}
 function makeResults(){deck=[...tarotCards];results=currentSpread.positions.map(pos=>({position:pos[0],sub:pos[1],card:pull(),orientation:orientation()}))}
-function renderResults(){const box=document.getElementById("resultOverlay");box.innerHTML=results.map(r=>`<div class="result-card"><div class="result-pos">${r.position}</div>${r.sub?`<div class="result-sub">${r.sub}</div>`:""}<img src="${commonsUrl(r.card.commons)}" onerror="imgErr(this,'${r.card.backup}')" class="${r.orientation==="逆位"?"reversed":""}"><div class="result-name">${r.card.name}・${r.orientation}</div></div>`).join("")}
+function renderResults(){const box=document.getElementById("resultOverlay");box.innerHTML=results.map(r=>`<div class="result-card"><div class="result-pos">${r.position}</div>${r.sub?`<div class="result-sub">${r.sub}</div>`:""}<span class="result-img-wrap"><img src="${commonsUrl(r.card.commons)}" onerror="imgErr(this,'${r.card.backup}')" class="${r.orientation==="逆位"?"reversed":""}"></span><div class="result-name">${r.card.name}・${r.orientation}</div></div>`).join("")}
 function restartSame(){if(currentSpread)goPage("shuffle")}
 function drawOracle(type){const pool=oracleCards.filter(o=>o.type===type);currentOracle=pool[Math.floor(Math.random()*pool.length)];document.getElementById("oracleCardBox").innerHTML=`<div class="en">${currentOracle.en}</div><div class="cn">${currentOracle.cn}</div><div class="icon">${currentOracle.icon}</div>`;document.getElementById("oracleTextBox").innerHTML=`<div class="oracle-answer-title">神諭訊息</div>${currentOracle.text.replace(/\n/g,"<br>")}`;goPage("oracleAnswer")}
 function payload(){return{date:new Date().toLocaleString("zh-TW"),spread:currentSpread?.name||"",mode:modeText[currentMode]||"",cards:results.map(r=>({position:r.position,sub:r.sub,name:r.card.name,orientation:r.orientation})),oracle:currentOracle?{cn:currentOracle.cn,text:currentOracle.text}:null}}
